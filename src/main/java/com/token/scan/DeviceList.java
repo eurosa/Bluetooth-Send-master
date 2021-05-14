@@ -1,7 +1,6 @@
-package com.bluetooth.scan;
+package com.token.scan;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -9,32 +8,24 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Typeface;
 import android.hardware.Camera;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Looper;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.Surface;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -48,49 +39,33 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import com.camerakit.CameraKitView;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.exifinterface.media.ExifInterface;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.instantapps.InstantApps;
-import com.muddzdev.quickshot.QuickShot;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.text.BreakIterator;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import static android.content.ContentValues.TAG;
-import static com.bluetooth.scan.R.drawable.ic_camera_switch;
 
 
-public class DeviceList extends AppCompatActivity
+public class DeviceList extends AppCompatActivity implements  View.OnClickListener
 {
     private static final String MY_PREFS_NAME = "MyTxtFile";;
     //  private CameraKitView cameraKitView;
@@ -102,7 +77,8 @@ public class DeviceList extends AppCompatActivity
     InputStream mmInputStream;
     static final UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     String address = null;
-    TextView textView;
+    private Button sendBtn;
+
     boolean listViewFlag=true;
 
     //==============================To connect bluetooth devices============================
@@ -115,7 +91,7 @@ public class DeviceList extends AppCompatActivity
     private boolean waitForPermission = false;
     private boolean waitForStoragePermission = false;
     //-----------------------------------Camera-----------------------------------------------
-
+    Button On, Off, Discnt, Abt;
 
     //widgets
     Button btnPaired,scanDevices;
@@ -130,27 +106,16 @@ public class DeviceList extends AppCompatActivity
             { Manifest.permission.WRITE_EXTERNAL_STORAGE };
     private ImageView imageView;
     private Bitmap bitmap;
-    private TextView txt_fahrenheit;
-    private TextView txt_celcius;
+
     private String str_celcius;
     private String str_fahrenheit;
     private ImageView bmpView;
     //=================================For temperature limit count==================================
-    private double normalLow=32;
-    private double normalHigh=37.3;
-    private double moderateLow=37.4;
-    private double moderateHigh=38;
-    private double maxLow=38.1;
-    private double maxHigh=40;
-    private String double_str_celcius;
+
+
     private String double_str_fahrenheit;
-    private int normalCount=0;
-    private int moderateCount=0;
-    private int highCount=0;
-    private TextView normalView;
-    private TextView moderateView;
-    private TextView highView;
-    private TextView totalView;
+
+
     private ImageView iv_your_image;
     private String str_cel,str_fah;
 
@@ -161,8 +126,20 @@ public class DeviceList extends AppCompatActivity
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
     };
     private    FrameLayout   layout;
-    private Button btnTag;
 
+    private TextView one, two, three, four, five, six, seven, eight, nine, zero, div, multi, sub, plus, dot, equals, display, clear;
+    private ImageButton backDelete;
+
+    /***************************************************************************************
+     * Navigation Drawer Layout
+     *
+     ***************************************************************************************/
+    public DrawerLayout drawerLayout;
+    public ActionBarDrawerToggle actionBarDrawerToggle;
+    /****************************************************************************************
+    * End of Navigation Drawer
+    *
+    * */
 
     //screenshot
     @Override
@@ -179,22 +156,87 @@ public class DeviceList extends AppCompatActivity
        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
        // getSupportActionBar().setDisplayShowHomeEnabled(true);
         //=========================Toolbar End============================================================
+        /***************************************************************************************
+         * Navigation Drawer Layout
+         *
+         ***************************************************************************************/
+        // drawer layout instance to toggle the menu icon to open
+        // drawer and back button to close drawer
+        drawerLayout = findViewById(R.id.draw_layout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
 
+        // pass the Open and Close toggle for the drawer layout listener
+        // to toggle the button
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+        // to make the Navigation drawer icon always appear on the action bar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       /***************************************************************************************
+        * Navigation Drawer Layout
+        *
+        ***************************************************************************************/
         //cameraKitView = findViewById(R.id.camera);
         //-------------------------------------To Receive device address from background==================
-        textView=findViewById(R.id.txt_normal);
-        txt_celcius=findViewById(R.id.txt_celcius);
-        txt_fahrenheit=findViewById(R.id.txt_fahrenheit);
+
         bmpView = findViewById(R.id.bitmap_view);
 
-
+        Discnt = (Button)findViewById(R.id.dis_btn);
+        sendBtn=findViewById(R.id.send_btn);
         //iv_your_image=findViewById(R.id.iv_your_image);
-        //============================Temperature Counting View=====================================================//
-        normalView=findViewById(R.id.normal_view);
-        moderateView=findViewById(R.id.moderate_view);
-        highView=findViewById(R.id.high_view);
-        totalView=findViewById(R.id.total_view);
-        //============================Temperature Countning View====================================================//
+        //============================Keyboard=====================================================//
+        //commands to be sent to bluetooth
+        sendBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                sendData();      //method to turn on
+            }
+        });
+
+        Discnt.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Disconnect(); //close connection
+            }
+        });
+
+        one = findViewById(R.id.one);
+        two = findViewById(R.id.two);
+        three = findViewById(R.id.three);
+        four = findViewById(R.id.four);
+        five = findViewById(R.id.five);
+        six = findViewById(R.id.six);
+        seven = findViewById(R.id.seven);
+        eight = findViewById(R.id.eight);
+        nine = findViewById(R.id.nine);
+        zero = findViewById(R.id.zero);
+        display =findViewById(R.id.display);
+        clear = findViewById(R.id.clear);
+        backDelete = findViewById(R.id.backDelete);
+
+        one.setOnClickListener(this);
+        two.setOnClickListener(this);
+        three.setOnClickListener(this);
+        four.setOnClickListener(this);
+        five.setOnClickListener(this);
+        six.setOnClickListener(this);
+        seven.setOnClickListener(this);
+        eight.setOnClickListener(this);
+        nine.setOnClickListener(this);
+        zero.setOnClickListener(this);
+        display.setOnClickListener(this);
+        clear.setOnClickListener(this);
+        backDelete.setOnClickListener(this);
+
+        Typeface tf = Typeface.createFromAsset(getApplicationContext().getAssets(), "SevenSegment.ttf");
+        display.setTypeface(tf);
+
+
+        //============================Keyboard====================================================//
 
 
         Intent newint = getIntent();
@@ -205,32 +247,18 @@ public class DeviceList extends AppCompatActivity
 
         boolean isInstantApp = InstantApps.getPackageManagerCompat(this).isInstantApp();
         Log.d(LOG_TAG, "are we instant?" + isInstantApp);
-        findViewById(R.id.preview_surface).setOnClickListener(clickListener);
+
         //findViewById(R.id.capture_button).setOnClickListener(clickListener);
     //    findViewById(R.id.switch_button).setOnClickListener(clickListener);
 
         //=======================================Camera=============================================
         //============================Create Button Programmatically================================
         //the layout on which you are working
-         layout =   findViewById(R.id.cameraLayout);
+        // layout =  findViewById(R.id.cameraLayout);
 
         //set the properties for button
-        btnTag = new Button(this);
-        btnTag.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-     //   btnTag.setText("Switch Camera");
 
-        btnTag.setBackground(getDrawable(ic_camera_switch));
 
-        //add button to the layout
-        layout.addView(btnTag);
-
-        btnTag.setOnClickListener(new View.OnClickListener()
-                                {
-                                    @Override
-                                    public void onClick(View v) {
-                                        switchCamera();
-                                    }
-                                });
 
         //===================================================End Create Button Programmatically=====
 
@@ -265,17 +293,7 @@ public class DeviceList extends AppCompatActivity
 
 
                 pairedDevicesList();
-                /*
-                if(listViewFlag){
-                    devicelist.setBackgroundColor(Color.WHITE);
-                    devicelist.setVisibility(View.VISIBLE);
-                    listViewFlag=false;
-                }else{
-                    devicelist.setVisibility(View.GONE);
-                    devicelist.setBackgroundColor(Color.WHITE);
-                    listViewFlag=true;
-                }
-*/
+
             }
 
         }
@@ -301,56 +319,7 @@ public class DeviceList extends AppCompatActivity
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         imageView = findViewById(R.id.imageView);
-        final TextView hidden_txtview =  findViewById(R.id.hidden_txtview);
-        final TextureView hidden_textureview =  findViewById(R.id.hidden_textureview);
 
-        ImageButton capture_screenshot = findViewById(R.id.capture_screenshot);
-
-        //Screen_shott.xml view------------------------------------------------------------
-        /*
-        capture_screenshot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Take screen shot
-                //bitmap = ScreenShott.getInstance().takeScreenShotOfView(hidden_txtview);
-                //bitmap = ScreenShott.getInstance().takeScreenShotOfJustView(hidden_txtview);
-                //bitmap = ScreenShott.getInstance().takeScreenShotOfTextureView(hidden_textureview);
-                bitmap = ScreenShott.getInstance().takeScreenShotOfRootView(view);
-
-               // bitmap = ScreenShott.getInstance().takeScreenShotOfView(view);
-                // Display in imageview
-               // takeScreenshot();
-                imageView.setImageBitmap(bitmap);
-            }
-        });
-
-        ImageButton capture_refresh = findViewById(R.id.capture_refresh);
-        capture_refresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bitmap placeholder =
-                        BitmapFactory.decodeResource(DeviceList.this.getResources(), R.drawable.placeholder);
-                // load the placeholder image into imageview
-                imageView.setImageBitmap(placeholder);
-            }
-        });
-
-        ImageButton capture_save =  findViewById(R.id.capture_save);
-        capture_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (bitmap != null) {
-                    if (hasWritePermission) {
-                        Log.d("screenshotclick","screenclick:"+bitmap);
-
-                        saveScreenshot();
-                    }
-                    else {
-                        RuntimePermissionUtil.requestPermission(DeviceList.this, requestWritePermission, 100);
-                    }
-                }
-            }
-        });*/
 
 //----------------------------------screen_shot xml view-----------------------------------------
         //Camera screenshot
@@ -372,7 +341,32 @@ public class DeviceList extends AppCompatActivity
     }
 
 
+    private void sendData()
+    {
+        if (btSocket!=null)
+        {
+            try
+            {
 
+
+                final Handler handler=new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        // myLabel.setText(sendEditText.getText().toString());
+                        handler.postDelayed(this,100);
+                    }
+                },100);
+                String data="$134"+display.getText().toString()+";";
+                btSocket.getOutputStream().write(data.getBytes());
+            }
+            catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
 
 
     private void ScanDevicesList(){
@@ -529,7 +523,7 @@ public class DeviceList extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            shareFileWithApps();
+
             return true;
         }
 
@@ -572,6 +566,14 @@ public class DeviceList extends AppCompatActivity
             return true;
         }
 
+        /*******************************************************************************
+        *
+        * Navigation Menu Item
+        * ******************************************************************************/
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -609,15 +611,12 @@ public class DeviceList extends AppCompatActivity
         }
     };
 
-    public void switchCamera() {
-        startCamera(1 - cameraId);
-    }
+
 
     @Override
     public void onResume() {
         super.onResume();
-        setSurface();
-      //  cameraKitView.onResume();
+
     }
 
     @Override
@@ -712,7 +711,7 @@ public class DeviceList extends AppCompatActivity
                finish();
             } else {
                 waitForPermission = false;
-                startCamera(cameraId);
+
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -748,7 +747,7 @@ public class DeviceList extends AppCompatActivity
                     @Override
                     public void onPermissionGranted() {
                         if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                            saveScreenshot();
+
                         }
                     }
 
@@ -767,87 +766,6 @@ public class DeviceList extends AppCompatActivity
     //    cameraKitView.onRequestPermissionsResult(requestCode, permissions, grantResults);
 //---------------------------------------------------------------------------------------
     }
-/*
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull final String[] permissions,
-                                           @NonNull final int[] grantResults) {
-        switch (requestCode) {
-            case 100: {
-
-                RuntimePermissionUtil.onRequestPermissionsResult(grantResults, new RPResultListener() {
-                    @Override
-                    public void onPermissionGranted() {
-                        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                            saveScreenshot();
-                        }
-                    }
-
-                    @Override
-                    public void onPermissionDenied() {
-                        Toast.makeText(DeviceList.this, "Permission Denied! You cannot save image!",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-                break;
-            }
-        }
-    }
-    */
-
-    private Camera.PictureCallback pictureCallback = new Camera.PictureCallback() {
-
-        @Override
-        public void onPictureTaken(byte[] data, Camera cam) {
-            try {
-                final String jpgPath = getCacheDir() + "/JBCameraCapture.jpg";
-                FileOutputStream jpg = new FileOutputStream(jpgPath);
-                jpg.write(data);
-                jpg.close();
-
-                Log.i(LOG_TAG, "written " + data.length + " bytes to " + jpgPath);
-
-              //  final Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-
-         //       Log.i(LOG_TAG, "bmp dimensions " + bmp.getWidth() + "x" + bmp.getHeight());
-               // handleSamplingAndRotationBitmap(DeviceList.this, Uri.fromFile(new File("/sdcard/sample.jpg")));
-                final Bitmap bmp =  handleSamplingAndRotationBitmap(DeviceList.this, Uri.fromFile(new File(jpgPath)));
-
-             //  final ImageView bmpView = (ImageView)findViewById(R.id.bitmap_view);
-
-                bmpView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                       bmpView.setImageBitmap(bmp);
-                     //   Picasso.get().load(Uri.fromFile(new File(jpgPath))).into(bmpView);
-                      //  iv_your_image.setImageBitmap(bmp);
-                      /*  Glide.with(DeviceList.this)
-                                .load(bmp)
-                                .dontTransform()
-                                .into(iv_your_image);*/
-                     //   bmpView.setRotation(-90);
-                        bmpView.setVisibility(View.VISIBLE);
-
-
-
-                        takeScreenshot();
-                        btnTag.setVisibility(View.VISIBLE);
-                        try {
-                            camera.startPreview();
-                        }catch (Exception e){
-
-
-                        }
-
-
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-    };
-
 
 
     private SurfaceHolder.Callback shCallback = new SurfaceHolder.Callback() {
@@ -867,273 +785,128 @@ public class DeviceList extends AppCompatActivity
         @Override
         public void surfaceCreated(SurfaceHolder holder) {
             Log.i(LOG_TAG, "surfaceCreated callback");
-            startCamera(cameraId);
+
         }
 
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width,
                                    int height) {
             Log.i(LOG_TAG, "surfaceChanged callback " + width + "x" + height);
-            restartPreview();
+
         }
 
     };
 
-    private void setSurface() {
-        SurfaceView previewSurfaceView = (SurfaceView)findViewById(R.id.preview_surface);
-        previewSurfaceView.getHolder().addCallback(shCallback);
-    }
+    @Override
+    public void onClick(View v) {
 
-    Handler cameraHandler;
 
-    protected void startCamera(final int id) {
-
-        if (cameraHandler == null) {
-            HandlerThread handlerThread = new HandlerThread("CameraHandlerThread");
-            handlerThread.start();
-            cameraHandler = new Handler(handlerThread.getLooper());
-        }
-        Log.d(LOG_TAG, "startCamera(" + id + "): " + (waitForPermission ? "waiting" : "proceeding"));
-        if (waitForPermission) {
-            return;
-        }
-        releaseCamera();
-        cameraHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                final Camera camera = openCamera(id);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        startPreview(id, camera);
-                    }
-                });
+        if (v.findViewById(R.id.one) == one) {
+            if (!display.getText().equals("")) {
+                display.append("1");
+                limitDigit(display.getText().toString());
+            } else {
+                display.setText("1");
             }
-        });
-    }
-
-    private void releaseCamera() {
-        if (camera != null) {
-            camera.stopPreview();
-            camera.release();
-            camera = null;
-        }
-    }
-
-    private void restartPreview() {
-        if (camera == null) {
-            return;
-        }
-        int degrees = 0;
-        switch (getWindowManager().getDefaultDisplay().getRotation()) {
-            case Surface.ROTATION_0:
-                degrees = 0;
-                break;
-            case Surface.ROTATION_90:
-                degrees = 90;
-                break;
-            case Surface.ROTATION_180:
-                degrees = 180;
-                break;
-            case Surface.ROTATION_270:
-                degrees = 270;
-                break;
-        }
-        Camera.CameraInfo ci = new Camera.CameraInfo();
-        Camera.getCameraInfo(cameraId, ci);
-        if (ci.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-            degrees += ci.orientation;
-            degrees %= 360;
-            degrees = 360 - degrees;
-        }
-        else {
-            degrees = 360 - degrees;
-            degrees += ci.orientation;
-        }
-        camera.setDisplayOrientation(degrees%360);
-        choosePictureResolution();
-
-        camera.startPreview();
-    }
-
-    private void choosePictureResolution() {
-
-        List<Camera.Size> supportedSizes;
-        Camera.Parameters params = camera.getParameters();
-
-        supportedSizes = params.getSupportedPreviewSizes();
-        for (Camera.Size sz : supportedSizes) {
-            Log.d(LOG_TAG, "supportedPreviewSizes " + sz.width + "x" + sz.height);
-        }
-        params.setPreviewSize(supportedSizes.get(0).width, supportedSizes.get(0).height);
-
-        supportedSizes = params.getSupportedVideoSizes();
-        for (Camera.Size sz : supportedSizes) {
-            Log.d(LOG_TAG, "supportedVideoSizes " + sz.width + "x" + sz.height);
-        }
-
-        supportedSizes = params.getSupportedPictureSizes();
-        for (Camera.Size sz : supportedSizes) {
-            Log.d(LOG_TAG, "supportedPictureSizes " + sz.width + "x" + sz.height);
-        }
-        params.setPictureSize(supportedSizes.get(0).width, supportedSizes.get(0).height);
-
-        Log.d(LOG_TAG, "current preview size " + params.getPreviewSize().width + "x" + params.getPreviewSize().height);
-        Log.d(LOG_TAG, "current picture size " + params.getPictureSize().width + "x" + params.getPictureSize().height);
-        // TODO: choose the best preview & picture size, and also fit the surface aspect ratio to preview aspect ratio
-        camera.setParameters(params);
-    }
-
-    private static Camera openCamera(int id) {
-        Log.d(LOG_TAG, "opening camera " + id);
-        Camera camera = null;
-        try {
-            camera = Camera.open(id);
-            Log.d(LOG_TAG, "opened camera " + id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (camera != null) {
-                camera.release();
+        } else if (v.findViewById(R.id.two) == two) {
+            if (!display.getText().equals("")) {
+                display.append("2");
+                limitDigit(display.getText().toString());
+            } else {
+                display.setText("2");
             }
-            camera = null;
-        }
-        return camera;
-    }
-
-    private void setPictureSize(int width, int height) {
-        Camera.Parameters params = camera.getParameters();
-        params.setPictureSize(width, height);
-        camera.setParameters(params);
-    }
-
-    private void startPreview(int id, Camera c) {
-        if (c != null) {
-            try {
-                SurfaceView previewSurfaceView = (SurfaceView)findViewById(R.id.preview_surface);
-                SurfaceHolder holder = previewSurfaceView.getHolder();
-                c.setPreviewDisplay(holder);
-                camera = c;
-                cameraId = id;
-                restartPreview();
-            } catch (IOException e) {
-                e.printStackTrace();
-                c.release();
+        } else if (v.findViewById(R.id.three) == three) {
+            if (!display.getText().equals("")) {
+                display.append("3");
+                limitDigit(display.getText().toString());
+            } else {
+                display.setText("3");
             }
-        }
-    }
-
-    //Camera-----------------------------------------------------------------------
-
-    //camera screenshot
-    private void saveScreenshot() {
-        // Save the screenshot
-
-        try {
-            File file = ScreenShott.getInstance()
-                    .saveScreenshotToPicturesFolder(DeviceList.this, bitmap, "my_screenshot");
-            // Display a toast
-            Toast.makeText(DeviceList.this, "Bitmap Saved at " + file.getAbsolutePath(),
-                    Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
-
-    //camera screenshot
-
-    private void takeScreenshot() {
-        btnTag.setVisibility(View.INVISIBLE);
-        Date now = new Date();
-        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
-        String timeFormat =DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM).format(now);
-
-        try {
-            // image naming and path  to include sd card  appending name you choose for file
-            String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + ".jpg";
-            String fileName= android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now)+"_"+str_cel+"_"+str_fah + ".jpg";
-
-            //-------------------------------------
-
-            //-------------------------------------
-
-            // create bitmap screen capture
-            View v1 = getWindow().getDecorView().getRootView();
-         //   View v2 = getWindow().takeSurface();
-            v1.setDrawingCacheEnabled(true);
-            Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
-            v1.setDrawingCacheEnabled(false);
-
-        //    File imageFile = new File(mPath);
-        //    Log.d("takeshot",""+imageFile);
-
-/*
-            FileOutputStream outputStream = new FileOutputStream(imageFile);
-            int quality = 100;
-            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-            outputStream.flush();
-            outputStream.close();
-*/
-            boolean save=createDirectoryAndSaveFile(bitmap,fileName);
-
-
-
-        } catch (Throwable e) {
-            // Several error may come out with file handling or DOM
-            e.printStackTrace();
-        }
-    }
-    private void openScreenshot(File imageFile) {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        Uri uri = Uri.fromFile(imageFile);
-        intent.setDataAndType(uri, "image/*");
-        startActivity(intent);
-    }
-
-
-
-    private boolean createDirectoryAndSaveFile(Bitmap imageToSave, String fileName) {
-        Log.d("fileNameNow",""+fileName);
-      //  bmpView.setImageBitmap(imageToSave);
-
-            File root = new File(Environment.getExternalStorageDirectory() + File.separator + "Temperature_Scan_Folder", "Image Folder");
-            //File root = new File(Environment.getExternalStorageDirectory(), "Notes");
-            if (!root.exists()) {
-                root.mkdirs();
-                //The rest of the series of this so called meterpre
+        } else if (v.findViewById(R.id.four) == four) {
+            if (!display.getText().equals("")) {
+                display.append("4");
+                limitDigit(display.getText().toString());
+            } else {
+                display.setText("4");
             }
-            File gpxfile = new File(root, fileName);
-            //-----------------------------------
-        if (gpxfile.exists()) {
-            gpxfile.delete();
-        }
+        } else if (v.findViewById(R.id.five) == five) {
+            if (!display.getText().equals("")) {
+                display.append("5");
+                limitDigit(display.getText().toString());
+            } else {
+                display.setText("5");
+            }
+        } else if (v.findViewById(R.id.six) == six) {
+            if (!display.getText().equals("")) {
+                display.append("6");
+                limitDigit(display.getText().toString());
+            } else {
+                display.setText("6");
+            }
+        } else if (v.findViewById(R.id.seven) == seven) {
+            if (!display.getText().equals("")) {
+                display.append("7");
+                limitDigit(display.getText().toString());
+            } else {
+                display.setText("7");
+            }
+        } else if (v.findViewById(R.id.eight) == eight) {
+            if (!display.getText().equals("")) {
+                display.append("8");
+                limitDigit(display.getText().toString());
+            } else {
+                display.setText("8");
+            }
+        } else if (v.findViewById(R.id.nine) == nine) {
+            if (!display.getText().equals("")) {
+                display.append("9");
+                limitDigit(display.getText().toString());
+            } else {
+                display.setText("9");
+            }
+        } else if (v.findViewById(R.id.zero) == zero) {
+            if (!display.getText().equals("")) {
+                display.append("0");
+                limitDigit(display.getText().toString());
+            } else {
+                display.setText("0");
+            }
+        } else if (v.findViewById(R.id.display) == display) {
 
-
-        try {
-            FileOutputStream out = new FileOutputStream(gpxfile);
-            imageToSave.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            out.flush();
-            out.close();
-            //==============================To Show Image in Gallery==============================================================
-          //  sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://"+ Environment.getExternalStorageDirectory())));
-            MediaScannerConnection.scanFile(getApplicationContext(), new String[] { root.getAbsolutePath() }, null, new MediaScannerConnection.OnScanCompletedListener() {
-
-                @Override
-                public void onScanCompleted(String path, Uri uri) {
-                    // TODO Auto-generated method stub
-
+        } else if (v.findViewById(R.id.clear) == clear) {
+            display.setText(null);
+        } else if (v.findViewById(R.id.backDelete) == backDelete) {
+            if (!display.getText().equals("")) {
+                String s = display.getText().toString();
+                if (s.length() > 0) {
+                    display.setText(s.substring(0, s.length() - 1));
+                } else {
+                    // Toast.makeText(this, "Nothing to remove", Toast.LENGTH_SHORT).show();
                 }
-            });
+            } else {
+                //Toast.makeText(this, "nothing to remove", Toast.LENGTH_SHORT).show();
+            }
 
-            //=====================================================================================================================
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
         }
+
+    }
+
+
+    public  void limitDigit(String input)
+    {
+
+        String lastFourDigits = "";     //substring containing last 4 characters
+
+        if (input.length() > 4)
+        {
+            lastFourDigits = input.substring(input.length() - 4);
+        }
+        else
+        {
+            lastFourDigits = input;
+        }
+        display.setText(lastFourDigits);
+
     }
 
 
@@ -1228,7 +1001,7 @@ public class DeviceList extends AppCompatActivity
             new Thread(new Runnable() {
                 public void run(){
                     try {
-                        receiveData();
+                     //   receiveData();
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -1255,203 +1028,6 @@ public class DeviceList extends AppCompatActivity
 
 
 
-    public void receiveData() throws IOException{
-
-//       final Handler handler = new Handler();
-
-        // Get a handler that can be used to post to the main thread
-        Handler mainHandler = new Handler(Looper.getMainLooper());
-
-        if (btSocket!=null)
-        {
-            try
-            {
-                InputStream socketInputStream =  btSocket.getInputStream();
-
-                byte[] buffer = new byte[1024];
-                int bytes;
-
-                // Keep looping to listen for received messages
-                while (true) {
-                    try {
-                        bytes = mmInputStream.read(buffer);            //read bytes from input buffer
-                        final String readMessage = new String(buffer, 0, bytes);
-                        // Send the obtained bytes to the UI Activity via handler
-                        Log.i("logging", readMessage + "");
-
-
-                        Runnable myRunnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                //To set degree html special entity character
-                                //https://en.wikipedia.org/wiki/List_of_XML_and_HTML_character_entity_references
-                                //For Degree \u00B0
-
-                                String str = readMessage;
-
-                                String readString=readMessage.replace("*","").replace("#","").trim();
-                                Log.d("readMessage"+"outside",""+readString+""+readString.equals("LOW".trim()));
-
-                                if(readString.equals("LOW".trim())){
-                                    Log.d("readMessage",""+readMessage);
-
-                                    txt_celcius.setBackgroundColor(getResources().getColor(R.color.redColor));
-                                    txt_fahrenheit.setBackgroundColor(getResources().getColor(R.color.redColor));
-                                    txt_celcius.setText(readString);
-                                    txt_fahrenheit.setText(readString);
-                                }else  if(readString.equals("HIGH".trim())){
-
-                                    txt_celcius.setBackgroundColor(getResources().getColor(R.color.redColor));
-                                    txt_fahrenheit.setBackgroundColor(getResources().getColor(R.color.redColor));
-                                    txt_celcius.setText(readString);
-                                    txt_fahrenheit.setText(readString);
-                                }
-
-                                try {
-                                    ArrayList<String> elephantList = new ArrayList<>(Arrays.asList(str.split(",")));
-                                    str_celcius = elephantList.get(0).replace("*", "").replace(" ", "\u00B0").trim();
-                                    str_fahrenheit = elephantList.get(1).replace("#", "").replace(" ", "\u00B0").trim();
-                                    double_str_celcius = elephantList.get(0).replace("*", "").replace("C", "").replace(" ", "").trim();
-                                    double_str_fahrenheit = elephantList.get(1).replace("#", "").replace("F", "").replace(" ", "").trim();
-
-                                    if (normalLow <= Double.parseDouble(double_str_celcius) && normalHigh >= Double.parseDouble(double_str_celcius)) {
-
-                                        txt_celcius.setBackgroundColor(getResources().getColor(R.color.limeGreen));
-                                        txt_fahrenheit.setBackgroundColor(getResources().getColor(R.color.limeGreen));
-                                        txt_celcius.setText(str_celcius);
-                                        txt_fahrenheit.setText(str_fahrenheit);
-                                        normalCount=normalCount+1;
-                                        normalView.setText(""+normalCount);
-                                        Log.d("normalCount", "surfaceCreated callback:"+normalCount);
-
-                                    } else if (moderateLow <= Double.parseDouble(double_str_celcius) && moderateHigh >= Double.parseDouble(double_str_celcius)) {
-
-                                        txt_celcius.setBackgroundColor(getResources().getColor(R.color.blueColor));
-                                        txt_fahrenheit.setBackgroundColor(getResources().getColor(R.color.blueColor));
-                                        txt_celcius.setText(str_celcius);
-                                        txt_fahrenheit.setText(str_fahrenheit);
-                                        moderateCount = moderateCount+1;
-                                        moderateView.setText(""+moderateCount);
-
-                                    } else if (maxLow <= Double.parseDouble(double_str_celcius) && maxHigh >= Double.parseDouble(double_str_celcius)) {
-
-                                        txt_celcius.setBackgroundColor(getResources().getColor(R.color.redColor));
-                                        txt_fahrenheit.setBackgroundColor(getResources().getColor(R.color.redColor));
-                                        txt_celcius.setText(str_celcius);
-                                        txt_fahrenheit.setText(str_fahrenheit);
-                                        highCount = highCount+1;
-                                        highView.setText(""+highCount);
-
-                                    }
-
-                                    totalView.setText(""+(normalCount + moderateCount + highCount));
-
-                                    saveDataToFile(str_celcius+" "+"/"+" "+str_fahrenheit);
-
-                                }catch (Exception e){
-
-                                   e.printStackTrace();
-
-                                }
-
-                                if(str_celcius != null && !str_celcius.isEmpty() && str_fahrenheit != null && !str_fahrenheit.isEmpty()){
-                                try {
-
-                                    Log.d("screenshot_image",""+bmpView);
-                                    camera.takePicture(null, null, pictureCallback);
-
-                                   str_cel=str_celcius;
-                                   str_fah=str_fahrenheit;
-
-                                  }catch (Exception e){
-
-                                }
-                                        // Take screen shot
-                                        //bitmap = ScreenShott.getInstance().takeScreenShotOfView(hidden_txtview);
-                                        //bitmap = ScreenShott.getInstance().takeScreenShotOfJustView(hidden_txtview);
-                                        //bitmap = ScreenShott.getInstance().takeScreenShotOfTextureView(hidden_textureview);
-                                        // bitmap = ScreenShott.getInstance().takeScreenShotOfView(view);
-                                        // Display in imageview
-                                    try{
-                                        //saveScreenshot();
-                                        //bmpView.setImageResource(android.R.color.transparent);
-                                        //bmpView.setImageResource(0);
-
-                                        str_celcius=null;
-                                        str_fahrenheit=null;
-
-                                        new Handler().postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                txt_celcius.setText("\u00B0C");
-                                                txt_fahrenheit.setText("\u00B0F");
-
-                                                txt_celcius.setBackgroundColor(getResources().getColor(R.color.limeGreen));
-                                                txt_fahrenheit.setBackgroundColor(getResources().getColor(R.color.limeGreen));
-                                               // bmpView.setImageResource(0);
-                                                //bmpView.setImageBitmap(null);
-                                             //  bmpView.destroyDrawingCache();
-                                                bmpView.post(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-
-                                                        //   bmpView.setRotation(-90);
-                                                     //   iv_your_image.setImageBitmap(null);
-                                                      /*  Glide.with(DeviceList.this)
-                                                                .clear(iv_your_image);*/
-                                                        bmpView.setImageResource(0);
-
-                                                        bmpView.setVisibility(View.VISIBLE);
-
-                                                    }
-                                                });
-                                            }
-                                        }, 5000);
-
-
-                                    Log.d("bskodh",""+bmpView);
-                                        // bmpView.rem
-                                       // imageView.setImageBitmap(bitmap);
-
-                                    }catch (Exception e){
-
-
-}
-                                }
-
-
-
-                                //myLabel.append("");
-                            }   //This is your code
-                        };
-                        mainHandler.post(myRunnable);
-/*
-                        handler.post(new Runnable()
-                        {
-                            public void run()
-                            {
-                                myLabel.setText(readMessage);
-                            }
-                        });
-                        */
-
-
-                    } catch (IOException e) {
-                        break;
-                    }
-                }
-            }
-            catch (IOException e)
-            {
-                msg("Error");
-            }
-
-
-        }
-
-
-
-    }
 
 
     // fast way to call Toast
@@ -1478,80 +1054,9 @@ public class DeviceList extends AppCompatActivity
         canvas.drawRGB(255, 128, 128);
     }
 
-private void saveDataToFile(String sBody){
-    Date now = new Date();
-    //;
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd");
-
-    String fileName = formatter.format(now) +"_Temperature Scan"+ ".txt";//like 2020_09_16.txt
 
 
-    try
-    {
-        File root = new File(Environment.getExternalStorageDirectory()+File.separator+"Temperature_Scan_Folder", "Temperature Scan Files");
-        //File root = new File(Environment.getExternalStorageDirectory(), "Notes");
-      Log.d("folderPath",""+root);
-        if (!root.exists())
-        {
-            root.mkdirs();
-        }
-        File gpxfile = new File(root, fileName);
-        saveTxtLink( gpxfile.getPath());
 
-        FileWriter writer = new FileWriter(gpxfile,true);
-      //  FR Locale : 03/11/2017 16:04:58
-        //DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM).format(date)
-        //03/11/2017 16:04:58 GMT+01:00
-        //DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG).format(now)
-
-        writer.append(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM).format(now)+"  "+sBody+"\n\n");
-        writer.flush();
-        writer.close();
-    //    Toast.makeText(this, "Data has been written to Report File"+ gpxfile.getPath(), Toast.LENGTH_LONG).show();
-
-    }
-    catch(IOException e)
-    {
-        e.printStackTrace();
-
-    }
-}
-
-
-    public void saveTxtLink(String txtLink){
-
-        SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-        editor.putString("txt_link", txtLink);
-        editor.apply();
-    }
-
-    public  String getTxtLink(){
-
-        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-        String txtLink = prefs.getString("txt_link", "No name defined");//"No name defined" is the default value.
-        return txtLink;
-    }
-
-    public void shareFileWithApps(){
-
-        Intent intentShareFile = new Intent(Intent.ACTION_SEND);
-        File fileWithinMyDir = new File(getTxtLink());
-
-        if(fileWithinMyDir.exists()) {
-
-            intentShareFile.setType("text/plain");
-
-            //intentShareFile.setType("application/pdf");
-            intentShareFile.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://"+getTxtLink()));
-
-            intentShareFile.putExtra(Intent.EXTRA_SUBJECT,
-                    "Sharing File...");
-            intentShareFile.putExtra(Intent.EXTRA_TEXT, "Sharing File...");
-
-            startActivity(Intent.createChooser(intentShareFile, "Share File"));
-        }
-
-    }
 
     /*
     public void clearViewData(){
@@ -1562,22 +1067,7 @@ private void saveDataToFile(String sBody){
         bmpView.destroyDrawingCache();
     }*/
 
-    //------------------------To Check storage Permission----------------------------
-    private boolean checkPermissions() {
-        int result;
-        List<String> listPermissionsNeeded = new ArrayList<>();
-        for (String p : permissions) {
-            result = ContextCompat.checkSelfPermission(this, p);
-            if (result != PackageManager.PERMISSION_GRANTED) {
-                listPermissionsNeeded.add(p);
-            }
-        }
-        if (!listPermissionsNeeded.isEmpty()) {
-            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), 100);
-            return false;
-        }
-        return true;
-    }
+
     //------------------------To check storage Permission--------------------------------------------------------------------------------------------
 
     //======================To resize and rotate image===========================================================
@@ -1590,29 +1080,7 @@ private void saveDataToFile(String sBody){
      * @return Bitmap image results
      * @throws IOException
      */
-    public static Bitmap handleSamplingAndRotationBitmap(Context context, Uri selectedImage)
-            throws IOException {
-        int MAX_HEIGHT = 1024;
-        int MAX_WIDTH = 1024;
 
-        // First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        InputStream imageStream = context.getContentResolver().openInputStream(selectedImage);
-        BitmapFactory.decodeStream(imageStream, null, options);
-        imageStream.close();
-
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, MAX_WIDTH, MAX_HEIGHT);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-        imageStream = context.getContentResolver().openInputStream(selectedImage);
-        Bitmap img = BitmapFactory.decodeStream(imageStream, null, options);
-
-        img = rotateImageIfRequired(context, img, selectedImage);
-        return img;
-    }
 
     /**
      * Calculate an inSampleSize for use in a {@link BitmapFactory.Options} object when decoding
@@ -1628,40 +1096,7 @@ private void saveDataToFile(String sBody){
      * @param reqHeight The requested height of the resulting bitmap
      * @return The value to be used for inSampleSize
      */
-    private static int calculateInSampleSize(BitmapFactory.Options options,
-                                             int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
 
-        if (height > reqHeight || width > reqWidth) {
-
-            // Calculate ratios of height and width to requested height and width
-            final int heightRatio = Math.round((float) height / (float) reqHeight);
-            final int widthRatio = Math.round((float) width / (float) reqWidth);
-
-            // Choose the smallest ratio as inSampleSize value, this will guarantee a final image
-            // with both dimensions larger than or equal to the requested height and width.
-            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
-
-            // This offers some additional logic in case the image has a strange
-            // aspect ratio. For example, a panorama may have a much larger
-            // width than height. In these cases the total pixels might still
-            // end up being too large to fit comfortably in memory, so we should
-            // be more aggressive with sample down the image (=larger inSampleSize).
-
-            final float totalPixels = width * height;
-
-            // Anything more than 2x the requested pixels we'll sample down further
-            final float totalReqPixelsCap = reqWidth * reqHeight * 2;
-
-            while (totalPixels / (inSampleSize * inSampleSize) > totalReqPixelsCap) {
-                inSampleSize++;
-            }
-        }
-        return inSampleSize;
-    }
 
 
     /**

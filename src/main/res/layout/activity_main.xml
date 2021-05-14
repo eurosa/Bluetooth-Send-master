@@ -31,7 +31,7 @@ SOFTWARE.
     android:fitsSystemWindows="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     app:layout_scrollFlags="exitUntilCollapsed"
-    tools:context="com.bluetooth.scan.ScanActivity">
+    tools:context="com.token.scan.ScanActivity">
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -85,7 +85,7 @@ SOFTWARE.
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_bluetooth_white_24dp" />
 
-    <com.bluetooth.scan.view.RecyclerViewProgressEmptySupport
+    <com.token.scan.view.RecyclerViewProgressEmptySupport
         android:id="@+id/list"
         android:name=".DeviceFragment"
         android:layout_width="match_parent"

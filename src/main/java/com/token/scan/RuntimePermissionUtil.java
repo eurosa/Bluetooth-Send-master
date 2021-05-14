@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.bluetooth.scan;
+package com.token.scan;
 
 import android.app.Activity;
 import android.content.Context;

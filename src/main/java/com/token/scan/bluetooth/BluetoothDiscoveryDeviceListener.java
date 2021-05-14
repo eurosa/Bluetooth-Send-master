@@ -1,4 +1,4 @@
-/*
+/**
  * MIT License
  * <p>
  * Copyright (c) 2017 Donato Rimenti
@@ -21,42 +21,54 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.bluetooth.scan.view;
+package com.token.scan.bluetooth;
+
+import android.bluetooth.BluetoothDevice;
 
 /**
- * Interface that defines how to handle interaction with a RecyclerView list or one of its elements.
- * This class has a generic argument which should evaluate to the list's elements class.
+ * Callback for handling Bluetooth events.
  *
  * @author Donato Rimenti
  */
-public interface ListInteractionListener<T> {
+public interface BluetoothDiscoveryDeviceListener {
 
     /**
-     * Called when a list element is clicked.
+     * Called when a new device has been found.
      *
-     * @param item the clicked item.
+     * @param device the device found.
      */
-    void onItemClick(T item);
+    void onDeviceDiscovered(BluetoothDevice device);
 
     /**
-     * Called when the list elements are being fetched.
+     * Called when device discovery starts.
      */
-    void startLoading();
+    void onDeviceDiscoveryStarted();
 
     /**
-     * Called when one or all the list elements have been fetched.
+     * Called on creation to inject a {@link BluetoothController} component to handle Bluetooth.
      *
-     * @param partialResults true if the results are partial and
-     *                       the fetching is still going, false otherwise.
+     * @param bluetooth the controller for the Bluetooth.
      */
-    void endLoading(boolean partialResults);
+    void setBluetoothController(BluetoothController bluetooth);
 
     /**
-     * Called to dismiss a loading dialog.
-     *
-     * @param error   true if an error has occurred, false otherwise.
-     * @param element the list element processed.
+     * Called when discovery ends.
      */
-    void endLoadingWithDialog(boolean error, T element);
+    void onDeviceDiscoveryEnd();
+
+    /**
+     * Called when the Bluetooth status changes.
+     */
+    void onBluetoothStatusChanged();
+
+    /**
+     * Called when the Bluetooth has been enabled.
+     */
+    void onBluetoothTurningOn();
+
+    /**
+     * Called when a device pairing ends.
+     */
+    void onDevicePairingEnded();
 
 }

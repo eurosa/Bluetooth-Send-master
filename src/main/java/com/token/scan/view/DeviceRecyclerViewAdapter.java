@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.bluetooth.scan.view;
+package com.token.scan.view;
 
 import android.bluetooth.BluetoothDevice;
 import android.view.LayoutInflater;
@@ -32,9 +32,9 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bluetooth.scan.R;
-import com.bluetooth.scan.bluetooth.BluetoothController;
-import com.bluetooth.scan.bluetooth.BluetoothDiscoveryDeviceListener;
+import com.token.scan.R;
+import com.token.scan.bluetooth.BluetoothController;
+import com.token.scan.bluetooth.BluetoothDiscoveryDeviceListener;
 
 import java.util.ArrayList;
 import java.util.List;

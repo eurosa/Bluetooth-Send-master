@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.bluetooth.scan;
+package com.token.scan;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -33,16 +33,15 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.SystemClock;
 
-import com.bluetooth.scan.bluetooth.BluetoothController;
-import com.bluetooth.scan.bluetooth.BluetoothDiscoveryDeviceListener;
-import com.bluetooth.scan.view.DeviceRecyclerViewAdapter;
-import com.bluetooth.scan.view.ListInteractionListener;
-import com.bluetooth.scan.view.RecyclerViewProgressEmptySupport;
+import com.token.scan.bluetooth.BluetoothController;
+import com.token.scan.bluetooth.BluetoothDiscoveryDeviceListener;
+import com.token.scan.view.DeviceRecyclerViewAdapter;
+import com.token.scan.view.ListInteractionListener;
+import com.token.scan.view.RecyclerViewProgressEmptySupport;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.location.LocationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.appcompat.widget.Toolbar;
 import android.util.Log;

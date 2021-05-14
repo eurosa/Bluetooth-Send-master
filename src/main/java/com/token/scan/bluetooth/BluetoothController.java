@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.bluetooth.scan.bluetooth;
+package com.token.scan.bluetooth;
 
 import android.Manifest;
 import android.app.Activity;

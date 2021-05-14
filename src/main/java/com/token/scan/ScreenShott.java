@@ -14,14 +14,11 @@
  * limitations under the License.
  */
 
-package com.bluetooth.scan;
+package com.token.scan;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.media.MediaScannerConnection;
-import android.net.Uri;
 import android.os.Environment;
 import android.view.TextureView;
 import android.view.View;
