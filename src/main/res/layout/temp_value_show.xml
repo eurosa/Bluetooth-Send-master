@@ -26,7 +26,7 @@
         android:id="@+id/txt_fahrenheit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-android:layout_margin="6dp"
+        android:layout_margin="6dp"
         android:layout_weight="1"
         android:background="@drawable/gradient_box"
         android:gravity="center"

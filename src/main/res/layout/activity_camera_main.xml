@@ -9,7 +9,7 @@
     <SurfaceView
         android:id="@+id/preview_surface"
         android:layout_width="match_parent"
-        android:layout_height="395dp"
+        android:layout_height="wrap_content"
 
         android:clickable="false"
         android:focusable="true"
@@ -19,8 +19,7 @@
     <ImageView
         android:id="@+id/bitmap_view"
         android:layout_width="match_parent"
-        android:layout_height="395dp"
-
+        android:layout_height="1024px"
         android:rotation="-90"
         android:scaleType="centerInside"
         android:scaleY="-1"
