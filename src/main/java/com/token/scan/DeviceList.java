@@ -48,10 +48,12 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.exifinterface.media.ExifInterface;
 
 import com.google.android.gms.instantapps.InstantApps;
+import com.google.android.material.navigation.NavigationView;
 
 import java.io.File;
 import java.io.IOException;
@@ -65,7 +67,7 @@ import java.util.UUID;
 import static android.content.ContentValues.TAG;
 
 
-public class DeviceList extends AppCompatActivity implements  View.OnClickListener
+public class DeviceList extends AppCompatActivity implements  View.OnClickListener  , NavigationView.OnNavigationItemSelectedListener
 {
     private static final String MY_PREFS_NAME = "MyTxtFile";;
     //  private CameraKitView cameraKitView;
@@ -136,6 +138,8 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
      ***************************************************************************************/
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
+    private NavigationView mNavigationView;
+
     /****************************************************************************************
     * End of Navigation Drawer
     *
@@ -169,6 +173,9 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
         // to toggle the button
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
+
+        mNavigationView =  findViewById(R.id.nav_view);
+        mNavigationView.setNavigationItemSelectedListener(this);
 
         // to make the Navigation drawer icon always appear on the action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -507,10 +514,39 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
 
 
     @Override
+    public boolean onNavigationItemSelected(@NonNull  MenuItem item) {
+        // Handle navigation view item clicks here.
+        switch (item.getItemId()) {
+
+            case R.id.nav_id:
+                idList();
+                break;
+            case R.id.nav_exit:
+                exitApplication();
+                break;
+            case R.id.nav_digits:
+                Toast.makeText(getApplicationContext(), "nav_digits", Toast.LENGTH_LONG).show();
+                break;
+            case R.id.nav_sound:
+                Toast.makeText(getApplicationContext(), "nav_sound", Toast.LENGTH_LONG).show();
+                break;
+            case R.id.nav_type:
+                Toast.makeText(getApplicationContext(), "nav_type", Toast.LENGTH_LONG).show();
+                break;
+
+        }
+        //close navigation drawer
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_device_list, menu);
+
         return true;
     }
 
@@ -521,63 +557,194 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-
-            return true;
-        }
-
-        if (id == R.id.action_delete) {
-
-
-//==============================End of Folder Delete using Alert Dialog=================================================================================
-            AlertDialog.Builder adb = new AlertDialog.Builder(this);
-           // adb.setView(Integer.parseInt("Delete Folder"));
-            adb.setTitle("Delete Folder");
-            adb.setMessage("Are you sure you want to delete this Folder?");
-            adb.setIcon(android.R.drawable.ic_dialog_alert);
-            adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-
-                   // File dir =new File( getApplicationContext().getFilesDir()+"/Temperature_Scan_Folder");
-                    File dir = new File(Environment.getExternalStorageDirectory()+"/Temperature_Scan_Folder");
-                    boolean success = deleteDir(dir);
-                    if(success) {
-                        Toast.makeText(DeviceList.this, "Successfully Deleted the Folder ",
-                                Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(DeviceList.this, "Folder Not Found",
-                                Toast.LENGTH_SHORT).show();
-
-                    }
-                }
-            });
-            adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(DeviceList.this, "Cancel",
-                            Toast.LENGTH_SHORT).show();
-                    //finish();
-                }
-            });
-            adb.show();
-
-//==========================================================End of Folder Deleted with Alert Dialog==================================
-
-            return true;
-        }
 
         /*******************************************************************************
         *
         * Navigation Menu Item
         * ******************************************************************************/
-        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
+       if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+           //Toast.makeText(getApplicationContext(), "nav_exit"+item.getItemId(), Toast.LENGTH_LONG).show();
+          /*  int n_id= item.getItemId();
+            switch (n_id) {
+                case R.id.nav_id:
+                    pairedDevicesList();
+                    return true;
+                case R.id.nav_exit:
+                    Toast.makeText(getApplicationContext(), "nav_exit", Toast.LENGTH_LONG).show();
+                    return true;
+                case R.id.nav_digits:
+                    finish();
+                    return true;
+                case R.id.nav_sound:
+                    Toast.makeText(getApplicationContext(), "nav_sound", Toast.LENGTH_LONG).show();
+                    return true;
+                case R.id.nav_type:
+                    Toast.makeText(getApplicationContext(), "nav_type", Toast.LENGTH_LONG).show();
+                    return true;
+                default:
+                    return super.onOptionsItemSelected(item);
+            }*/
+            return  true;
         }
 
-        return super.onOptionsItemSelected(item);
+        switch (id) {
+
+            case R.id.action_delete:
+                deleteFile();
+                return true;
+            case R.id.nav_id:
+                Toast.makeText(getApplicationContext(), "nav_exit", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.action_settings:
+                Toast.makeText(getApplicationContext(), "action_settings", Toast.LENGTH_LONG).show();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+
     }
 
 
+    private void idList()
+    {
+        pairedDevices = myBluetooth.getBondedDevices();
+        ArrayList list = new ArrayList();
+
+        if (pairedDevices.size()>0)
+        {
+            for(BluetoothDevice bt : pairedDevices)
+            {
+                list.add(bt.getName() + "\n" + bt.getAddress()); //Get the device's name and the address
+            }
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "No Paired Bluetooth Devices Found.", Toast.LENGTH_LONG).show();
+        }
+
+
+
+        //--------------------------------------------------------------------------------------------------------------
+        Dialog dialog = new Dialog(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Id");
+
+        LinearLayout parent = new LinearLayout(DeviceList.this);
+
+        parent.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        parent.setOrientation(LinearLayout.VERTICAL);
+
+        ListView modeList = new ListView(this);
+
+
+
+        //------------------To fixed height of listView------------------------------------
+        setListViewHeightBasedOnItems(modeList);
+        //RelativeLayout.LayoutParams params=new RelativeLayout.LayoutParams(200, 0);
+        //modeList.setLayoutParams(params);
+        //modeList.requestLayout();
+        /******************************************************************************************************************
+         *
+         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+         params.height = 20;
+         modeList.setLayoutParams(params);
+         modeList.requestLayout();
+
+         *
+         * */
+        // ViewGroup.LayoutParams listViewParams = (ViewGroup.LayoutParams)modeList.getLayoutParams();
+        //listViewParams.height = 20;
+        // modeList.smoothScrollToPosition(3);
+/*
+        ListAdapter listadp = modeList.getAdapter();
+        if (listadp != null) {
+            int totalHeight = 0;
+            for (int i = 0; i < listadp.getCount(); i++) {
+                View listItem = listadp.getView(i, null, modeList);
+                listItem.measure(0, 0);
+                totalHeight += listItem.getMeasuredHeight();
+            }
+            ViewGroup.LayoutParams params = modeList.getLayoutParams();
+            params.height = totalHeight + (modeList.getDividerHeight() * (listadp.getCount() - 1));
+            modeList.setLayoutParams(params);
+            modeList.requestLayout();
+        }
+*/
+        //------------------End of fixed height of listView---------------------------------
+
+        final ArrayAdapter modeAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, list);
+        modeList.setAdapter(modeAdapter);
+        modeList.setOnItemClickListener(myListClickListener);
+        builder.setView(modeList);
+        //  builder.show();
+        dialog = builder.create();
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, 600); //Controlling width and height.
+
+
+        //-------------------------------------------------------------------------------------------------------------
+
+
+
+    }
+
+    public void exitApplication(){
+        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+        // adb.setView(Integer.parseInt("Delete Folder"));
+        adb.setTitle("Exit");
+        adb.setMessage("Are you sure you want to exit application?");
+        adb.setIcon(android.R.drawable.ic_dialog_alert);
+        adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+              finish();
+            }
+        });
+        adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(DeviceList.this, "Cancel",
+                        Toast.LENGTH_SHORT).show();
+                //finish();
+            }
+        });
+        adb.show();
+
+    }
+
+public void deleteFile(){
+
+    AlertDialog.Builder adb = new AlertDialog.Builder(this);
+    // adb.setView(Integer.parseInt("Delete Folder"));
+    adb.setTitle("Delete Folder");
+    adb.setMessage("Are you sure you want to delete this Folder?");
+    adb.setIcon(android.R.drawable.ic_dialog_alert);
+    adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int which) {
+
+            // File dir =new File( getApplicationContext().getFilesDir()+"/Temperature_Scan_Folder");
+            File dir = new File(Environment.getExternalStorageDirectory()+"/Temperature_Scan_Folder");
+            boolean success = deleteDir(dir);
+            if(success) {
+                Toast.makeText(DeviceList.this, "Successfully Deleted the Folder ",
+                        Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(DeviceList.this, "Folder Not Found",
+                        Toast.LENGTH_SHORT).show();
+
+            }
+        }
+    });
+    adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int which) {
+            Toast.makeText(DeviceList.this, "Cancel",
+                    Toast.LENGTH_SHORT).show();
+            //finish();
+        }
+    });
+    adb.show();
+}
 
 
 //----------------------------------------------Cmamera-----------------------------------------------------------
@@ -908,6 +1075,7 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
         display.setText(lastFourDigits);
 
     }
+
 
 
     //=================================To Connect Bluetooth Device====================================

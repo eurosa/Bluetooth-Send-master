@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="252dp"
         android:id="@+id/imageView2"
-        android:src="@drawable/bluetooth"
+        android:src="@drawable/token_display"
         android:layout_marginTop="135dp"
         android:layout_gravity="center_horizontal" />
 
@@ -18,11 +18,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Temperature Scan"
+        android:text="Welcome to the token display"
+        android:textAlignment="center"
+        android:gravity="center"
         android:textColor="#FFFFFF"
         android:textSize="35dp"
         android:fontFamily="sans-serif-smallcaps"
         android:layout_marginTop="15dp"
         android:id="@+id/textView3"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"/>
 </LinearLayout>
