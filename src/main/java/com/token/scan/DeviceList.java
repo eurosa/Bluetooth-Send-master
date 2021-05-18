@@ -82,8 +82,9 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
     private Button sendBtn;
 
     boolean listViewFlag=true;
-
-    //==============================To connect bluetooth devices============================
+   
+    
+    //==============================To connect bluetooth devices=============================
     //-----------------------------Camera----------------------------------------------------
     private static final String LOG_TAG = "JBCamera";
     private static final int REQUEST_CAMERA_PERMISSION = 21;
@@ -139,6 +140,17 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
     private NavigationView mNavigationView;
+    private ListView idList,sndList,digitList,typeList;
+    private ArrayAdapter<String> typeAdapter;
+    private ArrayAdapter<String> sndAdapter;
+    private ArrayAdapter<String> idAdapter;
+    private ArrayAdapter<String> digitAdapter;
+    private Dialog idDialog;
+    private Dialog digitDialog;
+    private Dialog sndDialog;
+    private Dialog typeDialog;
+    private DatabaseHandler dbHandler;
+    private DataModel dataModel;
 
     /****************************************************************************************
     * End of Navigation Drawer
@@ -152,7 +164,17 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_list);
 //----------------------------Grant storage permission--------------------------------------------------
-
+        /*********************************************************************************
+        * Initialize Database
+        *
+        * *******************************************************************************/
+        dataModel = new DataModel();
+        dbHandler = new DatabaseHandler(this);
+        dbHandler.getQmsUtilityById("1",dataModel);
+        /*********************************************************************************
+         * Initialize Database
+         *
+         * *******************************************************************************/
         //----------------------------------------------------------------------------------------------
         //=========================Adding Toolbar in android layout======================================
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -160,6 +182,8 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
        // getSupportActionBar().setDisplayShowHomeEnabled(true);
         //=========================Toolbar End============================================================
+
+
         /***************************************************************************************
          * Navigation Drawer Layout
          *
@@ -404,7 +428,7 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
         //--------------------------------------------------------------------------------------------------------------
        Dialog dialog = new Dialog(this);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select Device for Pairing");
+        builder.setTitle("Select a paired device for connecting");
 
         LinearLayout parent = new LinearLayout(DeviceList.this);
 
@@ -525,13 +549,14 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
                 exitApplication();
                 break;
             case R.id.nav_digits:
-                Toast.makeText(getApplicationContext(), "nav_digits", Toast.LENGTH_LONG).show();
+                noOfDigits();
                 break;
             case R.id.nav_sound:
-                Toast.makeText(getApplicationContext(), "nav_sound", Toast.LENGTH_LONG).show();
+                selSound();
                 break;
             case R.id.nav_type:
-                Toast.makeText(getApplicationContext(), "nav_type", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), " Digit No: "+dataModel.getDigitNo(), Toast.LENGTH_LONG).show();
+                selType();
                 break;
 
         }
@@ -609,86 +634,126 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
 
     private void idList()
     {
-        pairedDevices = myBluetooth.getBondedDevices();
-        ArrayList list = new ArrayList();
-
-        if (pairedDevices.size()>0)
-        {
-            for(BluetoothDevice bt : pairedDevices)
-            {
-                list.add(bt.getName() + "\n" + bt.getAddress()); //Get the device's name and the address
-            }
-        }
-        else
-        {
-            Toast.makeText(getApplicationContext(), "No Paired Bluetooth Devices Found.", Toast.LENGTH_LONG).show();
-        }
-
-
-
-        //--------------------------------------------------------------------------------------------------------------
-        Dialog dialog = new Dialog(this);
+        idDialog = new Dialog(this);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Id");
+        builder.setTitle("Select a id");
 
-        LinearLayout parent = new LinearLayout(DeviceList.this);
+        idList = new ListView(this);
+        String[] stringArray = new String[] { "1", "2","3","4","5","6","7","8","9" };
+        idAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, stringArray);
+        idList.setAdapter(idAdapter);
 
-        parent.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        parent.setOrientation(LinearLayout.VERTICAL);
+        builder.setView(idList);
+        idDialog = builder.create();
+        idDialog.show();
 
-        ListView modeList = new ListView(this);
+        idList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                String s = idList.getItemAtPosition(i).toString();
 
-
-        //------------------To fixed height of listView------------------------------------
-        setListViewHeightBasedOnItems(modeList);
-        //RelativeLayout.LayoutParams params=new RelativeLayout.LayoutParams(200, 0);
-        //modeList.setLayoutParams(params);
-        //modeList.requestLayout();
-        /******************************************************************************************************************
-         *
-         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-         params.height = 20;
-         modeList.setLayoutParams(params);
-         modeList.requestLayout();
-
-         *
-         * */
-        // ViewGroup.LayoutParams listViewParams = (ViewGroup.LayoutParams)modeList.getLayoutParams();
-        //listViewParams.height = 20;
-        // modeList.smoothScrollToPosition(3);
-/*
-        ListAdapter listadp = modeList.getAdapter();
-        if (listadp != null) {
-            int totalHeight = 0;
-            for (int i = 0; i < listadp.getCount(); i++) {
-                View listItem = listadp.getView(i, null, modeList);
-                listItem.measure(0, 0);
-                totalHeight += listItem.getMeasuredHeight();
+                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                  // If you want to close the adapter
+                idDialog.dismiss();
             }
-            ViewGroup.LayoutParams params = modeList.getLayoutParams();
-            params.height = totalHeight + (modeList.getDividerHeight() * (listadp.getCount() - 1));
-            modeList.setLayoutParams(params);
-            modeList.requestLayout();
-        }
-*/
-        //------------------End of fixed height of listView---------------------------------
+        });
 
-        final ArrayAdapter modeAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, list);
-        modeList.setAdapter(modeAdapter);
-        modeList.setOnItemClickListener(myListClickListener);
-        builder.setView(modeList);
-        //  builder.show();
-        dialog = builder.create();
-        dialog.show();
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, 600); //Controlling width and height.
-
-
-        //-------------------------------------------------------------------------------------------------------------
 
 
 
     }
+
+   private void noOfDigits(){
+
+       digitDialog = new Dialog(this);
+       AlertDialog.Builder builder = new AlertDialog.Builder(this);
+       builder.setTitle("Select a digit");
+
+       digitList = new ListView(this);
+       String[] stringArray = new String[] { "2","3","4" };
+       digitAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, stringArray);
+       digitList.setAdapter(digitAdapter);
+
+
+       digitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+           @Override
+           public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+               String s = digitList.getItemAtPosition(i).toString();
+
+               Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+               digitDialog.dismiss(); // If you want to close the adapter
+           }
+       });
+
+
+       builder.setView(digitList);
+       digitDialog = builder.create();
+       digitDialog.show();
+   }
+
+    private void selSound(){
+        sndDialog = new Dialog(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select a sound");
+        sndList = new ListView(this);
+        String[] stringArray = new String[] { "Ding Dong","English","Hindi","Hindi/English" };
+        sndAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, stringArray);
+        sndList.setAdapter(sndAdapter);
+
+
+        sndList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                String s = sndList.getItemAtPosition(i).toString();
+
+                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                sndDialog.dismiss(); // If you want to close the adapter
+            }
+        });
+
+
+        builder.setView(sndList);
+        sndDialog = builder.create();
+        sndDialog.show();
+    }
+
+    private void selType(){
+
+        dbHandler.Get_Total_QmsUtility();
+        typeDialog = new Dialog(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select a type");
+
+        typeList = new ListView(this);
+        String[] stringArray = new String[] { "1", "2","3","4"};
+        typeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, stringArray);
+        typeList.setAdapter(typeAdapter);
+
+
+        typeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                String s = typeList.getItemAtPosition(i).toString();
+
+                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                typeDialog.dismiss(); // If you want to close the adapter
+            }
+        });
+
+
+        builder.setView(typeList);
+        typeDialog = builder.create();
+        typeDialog.show();
+
+
+    }
+
+
+
 
     public void exitApplication(){
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
