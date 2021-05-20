@@ -219,6 +219,59 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
+    public int updateSound(DataModel dataModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        //values.put(KEY_DEVICE_ID, dataModel.getDevId());
+        //values.put(KEY_NO_OF_DIGIT, dataModel.getDigitNo());
+        values.put(KEY_SOUND, dataModel.getSoundType());
+        // values.put(KEY_TYPE, dataModel.getTypeNo());
+        // Toast.makeText(context, "Label Eleven: " + dataModel.getCntLabelEleven(), Toast.LENGTH_SHORT).show();
+        // updating row
+
+        return db.update(TABLE_DISPLAY_TOKEN, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(dataModel.getID()) });
+
+    }
+
+
+
+    public int updateDigitNo(DataModel dataModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        //values.put(KEY_DEVICE_ID, dataModel.getDevId());
+        values.put(KEY_NO_OF_DIGIT, dataModel.getDigitNo());
+        // values.put(KEY_SOUND, dataModel.getSoundType());
+        // values.put(KEY_TYPE, dataModel.getTypeNo());
+        // Toast.makeText(context, "Label Eleven: " + dataModel.getCntLabelEleven(), Toast.LENGTH_SHORT).show();
+        // updating row
+
+        return db.update(TABLE_DISPLAY_TOKEN, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(dataModel.getID()) });
+
+    }
+
+    public int up_nav_id(DataModel dataModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_DEVICE_ID, dataModel.getDevId());
+        //values.put(KEY_NO_OF_DIGIT, dataModel.getDigitNo());
+       // values.put(KEY_SOUND, dataModel.getSoundType());
+        // values.put(KEY_TYPE, dataModel.getTypeNo());
+        // Toast.makeText(context, "Label Eleven: " + dataModel.getCntLabelEleven(), Toast.LENGTH_SHORT).show();
+        // updating row
+
+        return db.update(TABLE_DISPLAY_TOKEN, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(dataModel.getID()) });
+
+
+
+    }
+
+
     // Updating single qmsUtility
     public int Update_QmsUtility(DataModel dataModel) {
         SQLiteDatabase db = this.getWritableDatabase();

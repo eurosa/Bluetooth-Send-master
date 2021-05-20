@@ -652,6 +652,8 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 String s = idList.getItemAtPosition(i).toString();
+                dataModel.setDevId(s);
+                dbHandler.up_nav_id(dataModel);
 
                 Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                   // If you want to close the adapter
@@ -681,7 +683,7 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                String s = digitList.getItemAtPosition(i).toString();
-
+               dbHandler.updateDigitNo(dataModel);
                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                digitDialog.dismiss(); // If you want to close the adapter
            }
@@ -708,7 +710,7 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 String s = sndList.getItemAtPosition(i).toString();
-
+                dbHandler.updateSound(dataModel);
                 Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                 sndDialog.dismiss(); // If you want to close the adapter
             }
