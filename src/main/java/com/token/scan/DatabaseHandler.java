@@ -202,6 +202,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     dataModel.setDigitNo(cursor.getString(cursor.getColumnIndex("digitNo")));
                     dataModel.setSoundType(cursor.getString(cursor.getColumnIndex("soundType")));
                     dataModel.setTypeNo(cursor.getString(cursor.getColumnIndex("typeNo")));
+                    dataModel.setID(Integer.parseInt(cursor.getString(cursor.getColumnIndex("id"))));
 
                 } while (cursor.moveToNext());
             }
@@ -227,7 +228,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //values.put(KEY_NO_OF_DIGIT, dataModel.getDigitNo());
         values.put(KEY_SOUND, dataModel.getSoundType());
         // values.put(KEY_TYPE, dataModel.getTypeNo());
-        // Toast.makeText(context, "Label Eleven: " + dataModel.getCntLabelEleven(), Toast.LENGTH_SHORT).show();
+       // Toast.makeText(context, "Row ID: " + dataModel.getID(), Toast.LENGTH_SHORT).show();
         // updating row
 
         return db.update(TABLE_DISPLAY_TOKEN, values, KEY_ID + " = ?",
@@ -272,6 +273,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
+    public int updateTypeNo(DataModel dataModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        //values.put(KEY_DEVICE_ID, dataModel.getDevId());
+        //values.put(KEY_NO_OF_DIGIT, dataModel.getDigitNo());
+        values.put(KEY_TYPE, dataModel.getTypeNo());
+        // values.put(KEY_TYPE, dataModel.getTypeNo());
+        // Toast.makeText(context, "Label Eleven: " + dataModel.getCntLabelEleven(), Toast.LENGTH_SHORT).show();
+        // updating row
+
+        return db.update(TABLE_DISPLAY_TOKEN, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(dataModel.getID()) });
+
+    }
+
+
     // Updating single qmsUtility
     public int Update_QmsUtility(DataModel dataModel) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -305,7 +323,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
 
-        Toast.makeText(context, "Row No: " + cursor.getCount(), Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(context, "Row No: " + cursor.getCount(), Toast.LENGTH_SHORT).show();
         Log.d("Database",""+cursor.getCount());
 
         // return qms utility

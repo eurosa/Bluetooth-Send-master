@@ -53,7 +53,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.exifinterface.media.ExifInterface;
 
 import com.google.android.gms.instantapps.InstantApps;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,7 +71,7 @@ import static android.content.ContentValues.TAG;
 
 public class DeviceList extends AppCompatActivity implements  View.OnClickListener  , NavigationView.OnNavigationItemSelectedListener
 {
-    private static final String MY_PREFS_NAME = "MyTxtFile";;
+    private static final String MY_PREFS_NAME = "MyTxtFile";
     //  private CameraKitView cameraKitView;
     //==============================To Connect Bluetooth Device=============================
     private ProgressDialog progress;
@@ -175,12 +177,12 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
          * Initialize Database
          *
          * *******************************************************************************/
-        //----------------------------------------------------------------------------------------------
-        //=========================Adding Toolbar in android layout======================================
+        //------------------------------------------------------------------------------------------------
+        //=========================Adding Toolbar in android layout=======================================
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-       // getSupportActionBar().setDisplayShowHomeEnabled(true);
+        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // getSupportActionBar().setDisplayShowHomeEnabled(true);
         //=========================Toolbar End============================================================
 
 
@@ -191,7 +193,31 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
         // drawer layout instance to toggle the menu icon to open
         // drawer and back button to close drawer
         drawerLayout = findViewById(R.id.draw_layout);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close){
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                // Do whatever you want here
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                // Do whatever you want here
+              //  initItemData();
+
+            }
+            public void onDrawerStateChanged(int i) {
+                initItemData();
+            }
+
+            public void onDrawerSlide(View view, float v) {
+
+            }
+
+
+        };
 
         // pass the Open and Close toggle for the drawer layout listener
         // to toggle the button
@@ -207,8 +233,11 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
         * Navigation Drawer Layout
         *
         ***************************************************************************************/
+
+
+
         //cameraKitView = findViewById(R.id.camera);
-        //-------------------------------------To Receive device address from background==================
+        //-------------------------To Receive device address from background------------------------
 
         bmpView = findViewById(R.id.bitmap_view);
 
@@ -367,9 +396,37 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
         builder.detectFileUriExposure();
         //=======================================================================
 
-
+        // ************************************ Floating Action Button ********************************************************
+    /*    FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+    */
 
     }
+
+   public void initItemData(){
+
+       Menu menu = mNavigationView.getMenu();
+       // find MenuItem you want to change
+       MenuItem nav_id = menu.findItem(R.id.nav_id);
+       nav_id.setTitle("Id"+"                                           "+dataModel.getDevId());
+
+       MenuItem nav_digit = menu.findItem(R.id.nav_digits);
+       nav_digit.setTitle("Number Of Digits"+"        "+dataModel.getDigitNo());
+
+       MenuItem nav_sound = menu.findItem(R.id.nav_sound);
+       nav_sound.setTitle("Sound"+"                  "+dataModel.getSoundType());
+
+       MenuItem nav_type = menu.findItem(R.id.nav_type);
+       nav_type.setTitle("Type"+"                                      "+dataModel.getTypeNo());
+
+
+   }
 
 
     private void sendData()
@@ -539,24 +596,31 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
 
     @Override
     public boolean onNavigationItemSelected(@NonNull  MenuItem item) {
+
+
         // Handle navigation view item clicks here.
         switch (item.getItemId()) {
 
             case R.id.nav_id:
                 idList();
+                item.setTitle("Id"+"                                           "+dataModel.getDevId());
                 break;
             case R.id.nav_exit:
                 exitApplication();
                 break;
             case R.id.nav_digits:
                 noOfDigits();
+                item.setTitle("Number Of Digits"+"        "+dataModel.getDigitNo());
+                // Toast.makeText(getApplicationContext(), " Digit No: "+dataModel.getDigitNo(), Toast.LENGTH_LONG).show();
                 break;
             case R.id.nav_sound:
                 selSound();
+                item.setTitle("Sound"+"                                    "+dataModel.getSoundType());
                 break;
             case R.id.nav_type:
-                Toast.makeText(getApplicationContext(), " Digit No: "+dataModel.getDigitNo(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), " Digit No: "+dataModel.getDigitNo(), Toast.LENGTH_LONG).show();
                 selType();
+                item.setTitle("Type"+"                                      "+dataModel.getTypeNo());
                 break;
 
         }
@@ -683,8 +747,9 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                String s = digitList.getItemAtPosition(i).toString();
+               dataModel.setDigitNo(s);
                dbHandler.updateDigitNo(dataModel);
-               Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+               // Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                digitDialog.dismiss(); // If you want to close the adapter
            }
        });
@@ -710,8 +775,9 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 String s = sndList.getItemAtPosition(i).toString();
+                dataModel.setSoundType(s);
                 dbHandler.updateSound(dataModel);
-                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                // Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                 sndDialog.dismiss(); // If you want to close the adapter
             }
         });
@@ -740,8 +806,9 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 String s = typeList.getItemAtPosition(i).toString();
-
-                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                dataModel.setTypeNo(s);
+                dbHandler.updateTypeNo(dataModel);
+                //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                 typeDialog.dismiss(); // If you want to close the adapter
             }
         });

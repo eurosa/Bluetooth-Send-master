@@ -2,7 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="HardcodedText">
-
+    <group
+        android:id="@+id/group"
+        android:checkableBehavior="single">
+    <item
+        android:id="@+id/nav_home"
+        android:title="Home"
+        android:icon="@drawable/ic_home"/>
     <item
         android:id="@+id/nav_id"
         android:title="Id"
@@ -28,5 +34,5 @@
         android:id="@+id/nav_exit"
         android:title="Exit"
         android:icon="@drawable/ic_exit_button"/>
-
+    </group>
 </menu>
