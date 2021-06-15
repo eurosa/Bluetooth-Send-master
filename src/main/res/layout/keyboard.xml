@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".DataControl">
 
+    <Button
+        android:id="@+id/down_btn"
+        style="@style/DigitButton"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:background="@drawable/ic_navigate_down_arrow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.218"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.88" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="423dp"
@@ -73,8 +86,8 @@
     <TextView
         android:id="@+id/clear"
         style="@style/DigitButton"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
+        android:layout_width="98dp"
+        android:layout_height="68dp"
 
         android:text="RESET"
         android:textSize="15sp"
@@ -85,7 +98,7 @@
         app:layout_constraintTop_toTopOf="parent"
 
 
-        app:layout_constraintVertical_bias="0.976" />
+        app:layout_constraintVertical_bias="0.983" />
 
     <TextView
         android:id="@+id/one"
@@ -221,7 +234,7 @@
         android:id="@+id/send_btn"
         style="@style/DigitButton"
         android:layout_width="98dp"
-        android:layout_height="62dp"
+        android:layout_height="68dp"
         android:text="Call"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -243,6 +256,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.217" />
+
+    <Button
+        android:id="@+id/up_btn"
+        style="@style/DigitButton"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+
+        android:background="@drawable/ic_navigate_up_arrow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.781"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.88" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

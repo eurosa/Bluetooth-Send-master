@@ -8,6 +8,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -64,6 +65,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
@@ -96,6 +99,10 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
     private boolean waitForPermission = false;
     private boolean waitForStoragePermission = false;
     //-----------------------------------Camera-----------------------------------------------
+    // ------------------------ Auto Repeat increment and decrement --------------------------
+    Integer currentDisplayValue = 0;
+    //+++++++++++++++++++++++++ Auto Repeat increment and decrement ++++++++++++++++++++++++++
+
     Button On, Off, Discnt, Abt;
 
     //widgets
@@ -153,6 +160,8 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
     private Dialog typeDialog;
     private DatabaseHandler dbHandler;
     private DataModel dataModel;
+    private Button minusButton, plusButton;
+    Button[] arrayOfControlButtons;
 
     /****************************************************************************************
     * End of Navigation Drawer
@@ -407,6 +416,70 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
         });
     */
 
+        /***************************************************************************************
+        ******** Up button and down button when long pressed, increment value of display *******
+        ****************************************************************************************/
+        minusButton = findViewById(R.id.down_btn);
+        plusButton = findViewById(R.id.up_btn);
+        minusButton.setOnClickListener(this);
+        plusButton.setOnClickListener(this);
+        arrayOfControlButtons = new Button[]{plusButton, minusButton}; // this could be a large set of buttons
+
+        updateDisplay(); // initial setting of display
+
+
+
+        for (Button b : arrayOfControlButtons) {
+
+            b.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(final View v) {
+
+                    final Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            if (v.isPressed()) { // important: checking if button still pressed
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        // --------------------------------------------------
+                                        // this is code that runs each time the
+                                        // long-click timer "goes off."
+                                        switch (v.getId()) {
+
+                                            // which button was pressed?
+                                            case R.id.up_btn: {
+                                                currentDisplayValue = currentDisplayValue + 1;
+                                                break;
+                                            }
+
+                                            case R.id.down_btn: {
+                                                currentDisplayValue = currentDisplayValue - 1;
+                                                break;
+                                            }
+                                        }
+                                        updateDisplay();
+                                        // --------------------------------------------------
+                                    }
+                                });
+                            } else
+                                timer.cancel();
+                        }
+                    }, 100, 200);
+                    // if set to false, then long clicks will propagate into single-clicks
+                    // also, and we don't want that.
+                    return true;
+                }
+            });
+
+        }
+
+        /***************************************************************************************
+         * Up button and down button when long pressed, increment value of display
+         * */
+
+
     }
 
    public void initItemData(){
@@ -435,7 +508,6 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
         {
             try
             {
-
 
                 final Handler handler=new Handler();
                 handler.postDelayed(new Runnable() {
@@ -914,11 +986,7 @@ public void deleteFile(){
 
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
 
-    }
 
     @Override
     protected void onStart() {
@@ -1104,83 +1172,104 @@ public void deleteFile(){
 
         if (v.findViewById(R.id.one) == one) {
             if (!display.getText().equals("")) {
-                display.append("1");
+                currentDisplayValue = 1;
+                display.append(currentDisplayValue.toString());
                 limitDigit(display.getText().toString());
             } else {
-                display.setText("1");
+                display.setText(currentDisplayValue.toString());
             }
         } else if (v.findViewById(R.id.two) == two) {
             if (!display.getText().equals("")) {
-                display.append("2");
+                currentDisplayValue = 2;
+                display.append(currentDisplayValue.toString());
                 limitDigit(display.getText().toString());
             } else {
-                display.setText("2");
+                display.setText(currentDisplayValue.toString());
             }
         } else if (v.findViewById(R.id.three) == three) {
             if (!display.getText().equals("")) {
-                display.append("3");
+                currentDisplayValue = 3;
+                display.append(currentDisplayValue.toString());
                 limitDigit(display.getText().toString());
             } else {
-                display.setText("3");
+                currentDisplayValue = 3;
+                display.setText(currentDisplayValue.toString());
             }
         } else if (v.findViewById(R.id.four) == four) {
             if (!display.getText().equals("")) {
-                display.append("4");
+                currentDisplayValue = 4;
+                display.append(currentDisplayValue.toString());
                 limitDigit(display.getText().toString());
             } else {
-                display.setText("4");
+                currentDisplayValue = 4;
+                display.setText(currentDisplayValue.toString());
             }
         } else if (v.findViewById(R.id.five) == five) {
             if (!display.getText().equals("")) {
-                display.append("5");
+                currentDisplayValue = 5;
+                display.append(currentDisplayValue.toString());
                 limitDigit(display.getText().toString());
             } else {
-                display.setText("5");
+                currentDisplayValue = 5;
+                display.setText(currentDisplayValue.toString());
             }
         } else if (v.findViewById(R.id.six) == six) {
             if (!display.getText().equals("")) {
-                display.append("6");
+                currentDisplayValue = 6;
+                display.append(currentDisplayValue.toString());
                 limitDigit(display.getText().toString());
             } else {
-                display.setText("6");
+                currentDisplayValue = 6;
+                display.setText(currentDisplayValue.toString());
             }
         } else if (v.findViewById(R.id.seven) == seven) {
             if (!display.getText().equals("")) {
-                display.append("7");
+                currentDisplayValue = 7;
+                display.append(currentDisplayValue.toString());
                 limitDigit(display.getText().toString());
             } else {
-                display.setText("7");
+                currentDisplayValue = 7;
+                display.setText(currentDisplayValue.toString());
             }
         } else if (v.findViewById(R.id.eight) == eight) {
             if (!display.getText().equals("")) {
-                display.append("8");
+                currentDisplayValue = 8;
+                display.append(currentDisplayValue.toString());
                 limitDigit(display.getText().toString());
             } else {
-                display.setText("8");
+                currentDisplayValue = 8;
+                display.setText(currentDisplayValue.toString());
             }
         } else if (v.findViewById(R.id.nine) == nine) {
             if (!display.getText().equals("")) {
-                display.append("9");
+                currentDisplayValue = 9;
+                display.append(currentDisplayValue.toString());
                 limitDigit(display.getText().toString());
             } else {
-                display.setText("9");
+                currentDisplayValue = 9;
+                display.setText(currentDisplayValue.toString());
             }
         } else if (v.findViewById(R.id.zero) == zero) {
             if (!display.getText().equals("")) {
-                display.append("0");
+                currentDisplayValue = 0;
+                display.append(currentDisplayValue.toString());
                 limitDigit(display.getText().toString());
             } else {
-                display.setText("0");
+                currentDisplayValue = 0;
+                display.setText(currentDisplayValue.toString());
             }
         } else if (v.findViewById(R.id.display) == display) {
 
         } else if (v.findViewById(R.id.clear) == clear) {
-            display.setText(null);
+            currentDisplayValue = 0;
+            display.setText("0000");
         } else if (v.findViewById(R.id.backDelete) == backDelete) {
+
             if (!display.getText().equals("")) {
                 String s = display.getText().toString();
                 if (s.length() > 0) {
-                    display.setText(s.substring(0, s.length() - 1));
+
+                    display.setText(padLeftZeros(s.substring(0, s.length() - 1),4));
                 } else {
                     // Toast.makeText(this, "Nothing to remove", Toast.LENGTH_SHORT).show();
                 }
@@ -1190,6 +1279,32 @@ public void deleteFile(){
 
         }
 
+
+
+            switch (v.getId()) {
+                case R.id.up_btn:
+                    // Do something
+                    plusButtonPressed();
+                    break;
+                case R.id.down_btn:
+                    minusButtonPressed();
+                    break;
+            }
+
+
+    }
+
+    public String padLeftZeros(String inputString, int length) {
+        if (inputString.length() >= length) {
+            return inputString;
+        }
+        StringBuilder sb = new StringBuilder();
+        while (sb.length() < length - inputString.length()) {
+            sb.append('0');
+        }
+        sb.append(inputString);
+
+        return sb.toString();
     }
 
 
@@ -1555,6 +1670,99 @@ public void deleteFile(){
         //super.onBackPressed();
     }
 
+
+    // Fetch the stored data in onResume()
+    // Because this is what will be called
+    // when the app opens again
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Fetching the stored data
+        // from the SharedPreference
+        SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+
+        String s1 = sh.getString("name", "");
+
+        // Setting the fetched data
+        // in the EditTexts
+        display.setText(s1);
+
+    }
+
+    // Store the data in the SharedPreference
+    // in the onPause() method
+    // When the user closes the application
+    // onPause() will be called
+    // and data will be stored
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Creating a shared pref object
+        // with a file name "MySharedPref"
+        // in private mode
+        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+
+        // write all the data entered by the user in SharedPreference and apply
+        myEdit.putString("name", display.getText().toString());
+
+        myEdit.apply();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Creating a shared pref object
+        // with a file name "MySharedPref"
+        // in private mode
+        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+
+        // write all the data entered by the user in SharedPreference and apply
+        myEdit.putString("name", display.getText().toString());
+
+        myEdit.apply();
+    }
+
+
+    // +++++++++++++++++++++++++++++ Increment and Decrement value +++++++++++++++++++++++++++++++++++
+    // ON-CLICKS (referred to from XML)
+
+    public void minusButtonPressed() {
+        if(display.getText().toString()==null){
+            currentDisplayValue = 0;
+        }else{
+            currentDisplayValue = Integer.valueOf(display.getText().toString());
+        }
+        currentDisplayValue--;
+        updateDisplay();
+    }
+
+    public void plusButtonPressed() {
+        if(display.getText().toString()==null){
+            currentDisplayValue = 0;
+        }else{
+            currentDisplayValue = Integer.valueOf(display.getText().toString());
+        }
+
+        currentDisplayValue++;
+        updateDisplay();
+    }
+
+    // INTERNAL
+
+    private void updateDisplay() {
+
+        display.setText(padLeftZeros(currentDisplayValue.toString(),4));
+
+    }
+
+
+
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 }
