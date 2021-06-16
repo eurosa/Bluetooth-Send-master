@@ -101,6 +101,11 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
     //-----------------------------------Camera-----------------------------------------------
     // ------------------------ Auto Repeat increment and decrement --------------------------
     Integer currentDisplayValue = 0;
+
+    final int DisplayValueMin = 0;
+    final int DisplayValueMax1 = 99;
+    final int DisplayValueMax2 = 999;
+    final int DisplayValueMax3 = 9999;
     //+++++++++++++++++++++++++ Auto Repeat increment and decrement ++++++++++++++++++++++++++
 
     Button On, Off, Discnt, Abt;
@@ -450,12 +455,28 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
 
                                             // which button was pressed?
                                             case R.id.up_btn: {
-                                                currentDisplayValue = currentDisplayValue + 1;
+                                                if(Integer.parseInt(dataModel.getDigitNo()) == 2) {
+                                                    currentDisplayValue = HelperClass.clamp(DisplayValueMin, DisplayValueMax1, currentDisplayValue + 1);
+                                                    // Toast.makeText(DeviceList.this, ""+dataModel.getDigitNo(), Toast.LENGTH_LONG).show();
+                                                }else if(Integer.parseInt(dataModel.getDigitNo()) == 3){
+
+                                                    currentDisplayValue = HelperClass.clamp(DisplayValueMin, DisplayValueMax2, currentDisplayValue + 1);
+                                                }else if(Integer.parseInt(dataModel.getDigitNo()) == 4){
+                                                    currentDisplayValue = HelperClass.clamp(DisplayValueMin, DisplayValueMax3, currentDisplayValue + 1);
+                                                }
                                                 break;
                                             }
 
                                             case R.id.down_btn: {
-                                                currentDisplayValue = currentDisplayValue - 1;
+                                                if(Integer.parseInt(dataModel.getDigitNo()) == 2) {
+                                                    currentDisplayValue = HelperClass.clamp(DisplayValueMin, DisplayValueMax1, currentDisplayValue - 1);
+                                                    // Toast.makeText(DeviceList.this, ""+dataModel.getDigitNo(), Toast.LENGTH_LONG).show();
+                                                }else if(Integer.parseInt(dataModel.getDigitNo()) == 3){
+
+                                                    currentDisplayValue = HelperClass.clamp(DisplayValueMin, DisplayValueMax2, currentDisplayValue - 1);
+                                                }else if(Integer.parseInt(dataModel.getDigitNo()) == 4){
+                                                    currentDisplayValue = HelperClass.clamp(DisplayValueMin, DisplayValueMax3, currentDisplayValue - 1);
+                                                }
                                                 break;
                                             }
                                         }
@@ -684,6 +705,7 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
                 noOfDigits();
                 item.setTitle("Number Of Digits"+"        "+dataModel.getDigitNo());
                 // Toast.makeText(getApplicationContext(), " Digit No: "+dataModel.getDigitNo(), Toast.LENGTH_LONG).show();
+
                 break;
             case R.id.nav_sound:
                 selSound();
@@ -1262,14 +1284,23 @@ public void deleteFile(){
 
         } else if (v.findViewById(R.id.clear) == clear) {
             currentDisplayValue = 0;
-            display.setText("0000");
+            if(Integer.parseInt(dataModel.getDigitNo()) == 2){
+                display.setText("00");
+            }else if(Integer.parseInt(dataModel.getDigitNo()) == 3){
+
+                display.setText("000");
+            }else if(Integer.parseInt(dataModel.getDigitNo()) == 4){
+
+                display.setText("0000");
+            }
+
         } else if (v.findViewById(R.id.backDelete) == backDelete) {
 
             if (!display.getText().equals("")) {
                 String s = display.getText().toString();
                 if (s.length() > 0) {
 
-                    display.setText(padLeftZeros(s.substring(0, s.length() - 1),4));
+                    display.setText(padLeftZeros(s.substring(0, s.length() - 1),Integer.parseInt(dataModel.getDigitNo())));
                 } else {
                     // Toast.makeText(this, "Nothing to remove", Toast.LENGTH_SHORT).show();
                 }
@@ -1311,11 +1342,11 @@ public void deleteFile(){
     public  void limitDigit(String input)
     {
 
-        String lastFourDigits = "";     //substring containing last 4 characters
+        String lastFourDigits = "";     //substring containing last 4 characters/datamodel.
 
-        if (input.length() > 4)
+        if (input.length() > Integer.parseInt(dataModel.getDigitNo()))
         {
-            lastFourDigits = input.substring(input.length() - 4);
+            lastFourDigits = input.substring(input.length() - Integer.parseInt(dataModel.getDigitNo()));
         }
         else
         {
@@ -1737,7 +1768,16 @@ public void deleteFile(){
         }else{
             currentDisplayValue = Integer.valueOf(display.getText().toString());
         }
-        currentDisplayValue--;
+       // currentDisplayValue--;
+        if(Integer.parseInt(dataModel.getDigitNo()) == 2) {
+            currentDisplayValue = HelperClass.clamp(DisplayValueMin, DisplayValueMax1, currentDisplayValue - 1);
+            // Toast.makeText(DeviceList.this, ""+dataModel.getDigitNo(), Toast.LENGTH_LONG).show();
+        }else if(Integer.parseInt(dataModel.getDigitNo()) == 3){
+
+            currentDisplayValue = HelperClass.clamp(DisplayValueMin, DisplayValueMax2, currentDisplayValue - 1);
+        }else if(Integer.parseInt(dataModel.getDigitNo()) == 4){
+            currentDisplayValue = HelperClass.clamp(DisplayValueMin, DisplayValueMax3, currentDisplayValue - 1);
+        }
         updateDisplay();
     }
 
@@ -1747,22 +1787,30 @@ public void deleteFile(){
         }else{
             currentDisplayValue = Integer.valueOf(display.getText().toString());
         }
+        // currentDisplayValue ++;
+        if(Integer.parseInt(dataModel.getDigitNo()) == 2) {
+            currentDisplayValue = HelperClass.clamp(DisplayValueMin, DisplayValueMax1, currentDisplayValue + 1);
+            // Toast.makeText(DeviceList.this, ""+dataModel.getDigitNo(), Toast.LENGTH_LONG).show();
+        }else if(Integer.parseInt(dataModel.getDigitNo()) == 3){
 
-        currentDisplayValue++;
+            currentDisplayValue = HelperClass.clamp(DisplayValueMin, DisplayValueMax2, currentDisplayValue + 1);
+        }else if(Integer.parseInt(dataModel.getDigitNo()) == 4){
+            currentDisplayValue = HelperClass.clamp(DisplayValueMin, DisplayValueMax3, currentDisplayValue + 1);
+        }
+
         updateDisplay();
     }
 
     // INTERNAL
-
     private void updateDisplay() {
 
-        display.setText(padLeftZeros(currentDisplayValue.toString(),4));
+        display.setText(padLeftZeros(currentDisplayValue.toString(),Integer.parseInt(dataModel.getDigitNo())));
 
     }
 
 
 
-    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 }
