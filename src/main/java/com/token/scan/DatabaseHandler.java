@@ -197,7 +197,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 do {
                     // DataModel contact = new DataModel();
                     //  contact.setID(Integer.parseInt(cursor.getString(0)));
-                    Toast.makeText(context, cursor.getString(cursor.getColumnIndex("devId")), Toast.LENGTH_LONG).show();
+                    // Toast.makeText(context, cursor.getString(cursor.getColumnIndex("devId")), Toast.LENGTH_LONG).show();
                     dataModel.setDevId(cursor.getString(cursor.getColumnIndex("devId")));
                     dataModel.setDigitNo(cursor.getString(cursor.getColumnIndex("digitNo")));
                     dataModel.setSoundType(cursor.getString(cursor.getColumnIndex("soundType")));

@@ -813,7 +813,7 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
                 dataModel.setDevId(s);
                 dbHandler.up_nav_id(dataModel);
 
-                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+               // Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                   // If you want to close the adapter
                 idDialog.dismiss();
             }
@@ -843,7 +843,10 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
                String s = digitList.getItemAtPosition(i).toString();
                dataModel.setDigitNo(s);
                dbHandler.updateDigitNo(dataModel);
-               // Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+
+               limitDigit(display.getText().toString());
+
+
                digitDialog.dismiss(); // If you want to close the adapter
            }
        });
@@ -1329,6 +1332,8 @@ public void deleteFile(){
         if (inputString.length() >= length) {
             return inputString;
         }
+
+
         StringBuilder sb = new StringBuilder();
         while (sb.length() < length - inputString.length()) {
             sb.append('0');
@@ -1341,18 +1346,23 @@ public void deleteFile(){
 
     public  void limitDigit(String input)
     {
-
-        String lastFourDigits = "";     //substring containing last 4 characters/datamodel.
+       // Toast.makeText(getApplicationContext(), "Digit: "+dataModel.getDigitNo(), Toast.LENGTH_LONG).show();
+        String lastDigits = "";     //substring containing last 4 characters/datamodel.
 
         if (input.length() > Integer.parseInt(dataModel.getDigitNo()))
         {
-            lastFourDigits = input.substring(input.length() - Integer.parseInt(dataModel.getDigitNo()));
+            lastDigits = input.substring(input.length() - Integer.parseInt(dataModel.getDigitNo()));
+        }
+        else if (input.length() < Integer.parseInt(dataModel.getDigitNo())){
+
+            lastDigits =  padLeftZeros(input,Integer.parseInt(dataModel.getDigitNo())) ;
+
         }
         else
         {
-            lastFourDigits = input;
+            lastDigits = input;
         }
-        display.setText(lastFourDigits);
+        display.setText(lastDigits);
 
     }
 
@@ -1810,7 +1820,7 @@ public void deleteFile(){
 
 
 
-    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 }
