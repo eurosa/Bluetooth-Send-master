@@ -580,9 +580,9 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
                         if(!editTextPassword.getText().toString().equals("9999")){
                             editTextPassword.requestFocus();
                             editTextPassword.setError("Incorrect Password");
-                            success = false;
+
                         }else{
-                            success = true;
+
                             dialog.dismiss();
 
                             // Handle navigation view item clicks here.
@@ -611,8 +611,16 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
                         }
                     }
                 });
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(
+                new View.OnClickListener() {
 
-    }
+                    @Override
+                    public void onClick(View v) {
+                    dialog.dismiss();
+                }
+    });
+
+}
 
 
     private void ScanDevicesList(){
@@ -757,7 +765,10 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
 
 
         // Handle navigation view item clicks here.
-        passDialog(item);
+        if (item.getItemId() != R.id.nav_home && item.getItemId() != R.id.nav_exit)
+           passDialog(item);
+
+
        switch (item.getItemId()) {
 
             case R.id.nav_exit:
@@ -969,14 +980,14 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
 
 
     public void exitApplication(){
-        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+        final AlertDialog.Builder adb = new AlertDialog.Builder(this);
         // adb.setView(Integer.parseInt("Delete Folder"));
         adb.setTitle("Exit");
         adb.setMessage("Are you sure you want to exit application?");
         adb.setIcon(android.R.drawable.ic_dialog_alert);
         adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-
+                dialog.dismiss();
               finish();
             }
         });
@@ -984,6 +995,7 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(DeviceList.this, "Cancel",
                         Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
                 //finish();
             }
         });
