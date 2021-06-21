@@ -1713,6 +1713,8 @@ public void deleteFile(){
             try
             {
                 btSocket.close(); //close connection
+                Toast.makeText(DeviceList.this, "Bluetooth device has been disconnected", Toast.LENGTH_LONG).show();
+                getSupportActionBar().setTitle(R.string.app_name);
             }
             catch (IOException e)
             { msg("Error");}
