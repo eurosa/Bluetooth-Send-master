@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +33,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -167,6 +169,7 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
     private DataModel dataModel;
     private Button minusButton, plusButton;
     Button[] arrayOfControlButtons;
+    private boolean success =  false;
 
     /****************************************************************************************
     * End of Navigation Drawer
@@ -434,7 +437,7 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
 
 
 
-        for (Button b : arrayOfControlButtons) {
+      /*  for (Button b : arrayOfControlButtons) {
 
             b.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -494,12 +497,12 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
                 }
             });
 
-        }
+        }*/
 
         /***************************************************************************************
          * Up button and down button when long pressed, increment value of display
-         * */
-
+         * *************************************************************************************/
+       // passDialog();
 
     }
 
@@ -508,16 +511,18 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
        Menu menu = mNavigationView.getMenu();
        // find MenuItem you want to change
        MenuItem nav_id = menu.findItem(R.id.nav_id);
-       nav_id.setTitle("Id"+"                                           "+dataModel.getDevId());
+
+       nav_id.setTitle(Html.fromHtml("<font color='#ff3824'>Id</font>")+"                                            "+dataModel.getDevId());
+       //nav_id.setTitle("Id"+"                                            "+dataModel.getDevId());
 
        MenuItem nav_digit = menu.findItem(R.id.nav_digits);
-       nav_digit.setTitle("Number Of Digits"+"        "+dataModel.getDigitNo());
+       nav_digit.setTitle("Number Of Digits"+"                 "+dataModel.getDigitNo());
 
        MenuItem nav_sound = menu.findItem(R.id.nav_sound);
-       nav_sound.setTitle("Sound"+"                  "+dataModel.getSoundType());
+       nav_sound.setTitle("Sound"+"              "+dataModel.getSoundType());
 
        MenuItem nav_type = menu.findItem(R.id.nav_type);
-       nav_type.setTitle("Type"+"                                      "+dataModel.getTypeNo());
+       nav_type.setTitle("Type"+"                                       "+dataModel.getTypeNo());
 
 
    }
@@ -539,6 +544,11 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
                         handler.postDelayed(this,100);
                     }
                 },100);
+                dataModel.getDigitNo();
+                dataModel.getTypeNo();
+                dataModel.getDevId();
+                dataModel.getSoundType();
+                // String data="$134"+display.getText().toString()+";";
                 String data="$134"+display.getText().toString()+";";
                 btSocket.getOutputStream().write(data.getBytes());
             }
@@ -547,6 +557,61 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
                 msg("Error");
             }
         }
+    }
+
+    public void passDialog(final MenuItem item){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(
+                this);
+        builder.setTitle(R.string.my_title);
+        builder.setView(getLayoutInflater().inflate(
+                R.layout.my_dialog, null));
+        builder.setPositiveButton(android.R.string.ok, null);
+        builder.setNegativeButton(android.R.string.cancel, null);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(
+                new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        EditText editTextPassword = (EditText) dialog
+                                .findViewById(R.id.editTextPassword);
+                        if(!editTextPassword.getText().toString().equals("9999")){
+                            editTextPassword.requestFocus();
+                            editTextPassword.setError("Incorrect Password");
+                            success = false;
+                        }else{
+                            success = true;
+                            dialog.dismiss();
+
+                            // Handle navigation view item clicks here.
+                            switch (item.getItemId()) {
+
+                                case R.id.nav_id:
+                                    idList();
+                                    item.setTitle("Id"+"                                           "+dataModel.getDevId());
+                                    break;
+                                case R.id.nav_digits:
+                                   noOfDigits();
+                                   item.setTitle("Number Of Digits" + "        " + dataModel.getDigitNo());
+                                   // Toast.makeText(getApplicationContext(), " Digit No: "+dataModel.getDigitNo(), Toast.LENGTH_LONG).show();
+                                    break;
+                                case R.id.nav_sound:
+                                    selSound();
+                                    item.setTitle("Sound"+"                                    "+dataModel.getSoundType());
+                                    break;
+                                case R.id.nav_type:
+                                    //Toast.makeText(getApplicationContext(), " Digit No: "+dataModel.getDigitNo(), Toast.LENGTH_LONG).show();
+                                    selType();
+                                    item.setTitle("Type"+"                                      "+dataModel.getTypeNo());
+                                    break;
+
+                            }
+                        }
+                    }
+                });
+
     }
 
 
@@ -692,29 +757,11 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
 
 
         // Handle navigation view item clicks here.
-        switch (item.getItemId()) {
+        passDialog(item);
+       switch (item.getItemId()) {
 
-            case R.id.nav_id:
-                idList();
-                item.setTitle("Id"+"                                           "+dataModel.getDevId());
-                break;
             case R.id.nav_exit:
                 exitApplication();
-                break;
-            case R.id.nav_digits:
-                noOfDigits();
-                item.setTitle("Number Of Digits"+"        "+dataModel.getDigitNo());
-                // Toast.makeText(getApplicationContext(), " Digit No: "+dataModel.getDigitNo(), Toast.LENGTH_LONG).show();
-
-                break;
-            case R.id.nav_sound:
-                selSound();
-                item.setTitle("Sound"+"                                    "+dataModel.getSoundType());
-                break;
-            case R.id.nav_type:
-                //Toast.makeText(getApplicationContext(), " Digit No: "+dataModel.getDigitNo(), Toast.LENGTH_LONG).show();
-                selType();
-                item.setTitle("Type"+"                                      "+dataModel.getTypeNo());
                 break;
 
         }
@@ -945,7 +992,6 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
     }
 
 public void deleteFile(){
-
     AlertDialog.Builder adb = new AlertDialog.Builder(this);
     // adb.setView(Integer.parseInt("Delete Folder"));
     adb.setTitle("Delete Folder");
@@ -975,6 +1021,7 @@ public void deleteFile(){
         }
     });
     adb.show();
+
 }
 
 

@@ -27,5 +27,7 @@
     <string name="request_permission">This app needs camera permission.</string>
     <string name="take_picture">take picture</string>
     <string name="switch_camera">switch camera</string>
+    <string name="my_title">Password</string>
+    <string name="you_must_enter_username_and_password">9999</string>
 
 </resources>
