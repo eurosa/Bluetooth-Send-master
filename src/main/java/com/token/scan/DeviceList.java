@@ -250,6 +250,11 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
+
+        // to change humburger icon color
+        actionBarDrawerToggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.whiteColor));
+
+
         mNavigationView =  findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
 
