@@ -6,18 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".DataControl">
 
-    <Button
-        android:id="@+id/down_btn"
-        style="@style/DigitButton"
+    <ImageButton
+        android:id="@+id/up_btn"
+
         android:layout_width="68dp"
         android:layout_height="68dp"
-        android:background="@drawable/ic_navigate_down_arrow"
+        android:background="@drawable/mybutton"
+
+        android:padding="20dp"
+        android:src="@drawable/ic_navigate_up_arrow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.781"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.867" />
+
+    <ImageButton
+        android:id="@+id/down_btn"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:background="@drawable/mybutton"
+
+        android:padding="20dp"
+        android:src="@drawable/ic_navigate_down_arrow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.218"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.88" />
+        app:layout_constraintVertical_bias="0.871" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -52,43 +70,13 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginLeft="2dp"
-        android:background="@color/colorLightBlack"
-        app:layout_constraintEnd_toStartOf="@+id/clear"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="241dp"
-            android:layout_height="match_parent">
-
-            <ImageButton
-                android:id="@+id/backDelete"
-                android:layout_width="107dp"
-                android:layout_height="58dp"
-                android:backgroundTint="@color/colorBlack"
-                android:padding="20dp"
-                android:src="@drawable/ic_backspace_black_24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </LinearLayout>
 
     <TextView
         android:id="@+id/clear"
         style="@style/DigitButton"
         android:layout_width="98dp"
         android:layout_height="68dp"
-
+        android:background="@drawable/mybutton"
         android:text="RESET"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -98,13 +86,14 @@
         app:layout_constraintTop_toTopOf="parent"
 
 
-        app:layout_constraintVertical_bias="0.983" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/one"
         style="@style/DigitButton"
         android:layout_width="68dp"
         android:layout_height="68dp"
+        android:background="@drawable/mybutton"
         android:text="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -119,6 +108,7 @@
         android:layout_width="68dp"
         android:layout_height="68dp"
         android:text="2"
+        android:background="@drawable/mybutton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -132,6 +122,7 @@
         android:layout_width="68dp"
         android:layout_height="68dp"
         android:text="3"
+        android:background="@drawable/mybutton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.781"
@@ -144,132 +135,144 @@
         style="@style/DigitButton"
         android:layout_width="68dp"
         android:layout_height="68dp"
+        android:background="@drawable/mybutton"
         android:text="4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.218"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.481" />
+        app:layout_constraintVertical_bias="0.466" />
 
     <TextView
         android:id="@+id/five"
         style="@style/DigitButton"
         android:layout_width="68dp"
         android:layout_height="68dp"
+        android:background="@drawable/mybutton"
         android:text="5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.481" />
+        app:layout_constraintVertical_bias="0.466" />
 
     <TextView
         android:id="@+id/six"
         style="@style/DigitButton"
         android:layout_width="68dp"
         android:layout_height="68dp"
+        android:background="@drawable/mybutton"
         android:text="6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.781"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.481" />
+        app:layout_constraintVertical_bias="0.466" />
 
     <TextView
         android:id="@+id/seven"
         style="@style/DigitButton"
         android:layout_width="68dp"
         android:layout_height="68dp"
+        android:background="@drawable/mybutton"
         android:text="7"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.218"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.631" />
+        app:layout_constraintVertical_bias="0.6" />
 
     <TextView
         android:id="@+id/eight"
         style="@style/DigitButton"
         android:layout_width="68dp"
         android:layout_height="68dp"
+        android:background="@drawable/mybutton"
         android:text="8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.631" />
+        app:layout_constraintVertical_bias="0.6" />
 
     <TextView
         android:id="@+id/nine"
         style="@style/DigitButton"
         android:layout_width="68dp"
         android:layout_height="68dp"
+        android:background="@drawable/mybutton"
         android:text="9"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.781"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.631" />
+        app:layout_constraintVertical_bias="0.601" />
 
     <TextView
         android:id="@+id/zero"
         style="@style/DigitButton"
         android:layout_width="68dp"
         android:layout_height="68dp"
+        android:background="@drawable/mybutton"
+
         android:text="0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.758" />
+        app:layout_constraintVertical_bias="0.733" />
 
     <Button
         android:id="@+id/send_btn"
         style="@style/DigitButton"
         android:layout_width="98dp"
         android:layout_height="68dp"
+        android:background="@drawable/mybutton"
         android:text="Call"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.872" />
+        app:layout_constraintVertical_bias="0.867" />
+
 
     <Button
         android:id="@+id/dis_btn"
         style="@style/Button"
         android:layout_width="154dp"
         android:layout_height="50dp"
-        android:backgroundTint="@color/colorBlack"
+        android:background="@drawable/mybutton"
+
         android:text="Disconnect"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.961"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.217" />
+        app:layout_constraintVertical_bias="0.232" />
 
-    <Button
-        android:id="@+id/up_btn"
-        style="@style/DigitButton"
+    <ImageButton
+        android:id="@+id/backDelete"
         android:layout_width="68dp"
         android:layout_height="68dp"
+        android:background="@drawable/mybutton"
 
-        android:background="@drawable/ic_navigate_up_arrow"
+        android:padding="20dp"
+        android:src="@drawable/ic_backspace_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.781"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.88" />
+        app:layout_constraintVertical_bias="0.733" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

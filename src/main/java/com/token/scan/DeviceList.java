@@ -167,8 +167,8 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
     private Dialog typeDialog;
     private DatabaseHandler dbHandler;
     private DataModel dataModel;
-    private Button minusButton, plusButton;
-    Button[] arrayOfControlButtons;
+    private ImageButton minusButton, plusButton;
+    ImageButton[] arrayOfControlButtons;
     private boolean success =  false;
 
     /****************************************************************************************
@@ -431,7 +431,7 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
         plusButton = findViewById(R.id.up_btn);
         minusButton.setOnClickListener(this);
         plusButton.setOnClickListener(this);
-        arrayOfControlButtons = new Button[]{plusButton, minusButton}; // this could be a large set of buttons
+        arrayOfControlButtons = new ImageButton[]{plusButton, minusButton}; // this could be a large set of buttons
 
         updateDisplay(); // initial setting of display
 
