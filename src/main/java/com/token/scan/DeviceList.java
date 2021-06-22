@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -51,6 +52,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.exifinterface.media.ExifInterface;
@@ -201,6 +203,13 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
         // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // getSupportActionBar().setDisplayShowHomeEnabled(true);
         //=========================Toolbar End============================================================
+        Drawable drawable = myToolbar.getOverflowIcon();
+        if(drawable != null) {
+            drawable = DrawableCompat.wrap(drawable);
+            DrawableCompat.setTint(drawable.mutate(), getResources().getColor(R.color.whiteColor));
+            myToolbar.setOverflowIcon(drawable);
+        }
+        // ******************** Changing the color of three dot or overflow button *****************************
 
 
         /***************************************************************************************
@@ -258,7 +267,7 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
 
         bmpView = findViewById(R.id.bitmap_view);
 
-        Discnt = (Button)findViewById(R.id.dis_btn);
+       // Discnt = (Button)findViewById(R.id.dis_btn);
         sendBtn=findViewById(R.id.send_btn);
         //iv_your_image=findViewById(R.id.iv_your_image);
         //============================Keyboard=====================================================//
@@ -272,14 +281,14 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
             }
         });
 
-        Discnt.setOnClickListener(new View.OnClickListener()
+        /*Discnt.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
                 Disconnect(); //close connection
             }
-        });
+        });*/
 
         one = findViewById(R.id.one);
         two = findViewById(R.id.two);
@@ -830,20 +839,36 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
 
         switch (id) {
 
-            case R.id.action_delete:
-                deleteFile();
+            case R.id.action_share:
+                shareApp();
                 return true;
             case R.id.nav_id:
                 Toast.makeText(getApplicationContext(), "nav_exit", Toast.LENGTH_LONG).show();
                 return true;
-            case R.id.action_settings:
-                Toast.makeText(getApplicationContext(), "action_settings", Toast.LENGTH_LONG).show();
+            case R.id.action_disconnect:
+                Disconnect();
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
 
+
+    }
+
+    public void shareApp(){
+
+        try {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My application name");
+            String shareMessage= "\nLet me recommend you this application\n\n";
+            shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID +"\n\n";
+            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+            startActivity(Intent.createChooser(shareIntent, "choose one"));
+        } catch(Exception e) {
+            //e.toString();
+        }
 
     }
 
@@ -1718,8 +1743,10 @@ public void deleteFile(){
             }
             catch (IOException e)
             { msg("Error");}
-         }
-  //    finish(); //return to the first layout
+         }else{
+         Toast.makeText(DeviceList.this, "No device connected", Toast.LENGTH_LONG).show();
+     }
+     //    finish(); //return to the first layout
 
     }
 

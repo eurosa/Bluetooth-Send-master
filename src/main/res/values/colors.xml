@@ -19,5 +19,6 @@
     <color name="limeGreen">#32CD32</color>
     <color name="blueColor">#0000FF</color>
     <color name="highGray">#7F3356</color>
+    <color name="whiteColor">#FFFFFF</color>
 
 </resources>
