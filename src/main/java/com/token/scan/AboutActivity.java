@@ -5,9 +5,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.view.MenuItem;
 import android.view.View;
 
-public class AboutActivity extends Activity
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+public class AboutActivity extends AppCompatActivity
 {
 
     @Override
@@ -15,6 +19,23 @@ public class AboutActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+        // Back Pressed Button
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if(id == android.R.id.home){
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void fb(View view)
@@ -38,7 +59,7 @@ public class AboutActivity extends Activity
 
     public void web(View view)
     {
-        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://mayooghgirish.ml"));
+        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.digilinesystems.com/"));
         startActivity(webIntent);
     }
 }

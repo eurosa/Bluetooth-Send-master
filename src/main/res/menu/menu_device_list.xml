@@ -12,5 +12,10 @@
         android:orderInCategory="2"
         app:showAsAction="never"
         android:title="Share this app" />
+    <item android:id="@+id/action_about"
+        android:icon="@drawable/ic_share"
+        android:orderInCategory="3"
+        app:showAsAction="never"
+        android:title="About" />
 
 </menu>

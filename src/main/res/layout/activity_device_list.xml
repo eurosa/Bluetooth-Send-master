@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/draw_layout"
-    android:background="#00003f">
+    android:background="#F8F0E3">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -76,18 +76,15 @@
         app:titleTextColor="#FFFFFF" />
 
 
-    <include
-        android:id="@+id/cameraLayout"
-        layout="@layout/keyboard"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="60dp"
-          />
+        <include
+            android:id="@+id/cameraLayout"
+            layout="@layout/keyboard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="60dp" />
 
-
-
-    <LinearLayout
+        <LinearLayout
         android:id="@+id/LinearLayout02"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
