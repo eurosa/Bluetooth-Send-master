@@ -85,7 +85,7 @@
         android:layout_marginTop="600dp"
         android:src="@drawable/instagram_red" />-->
 
-    <ImageButton
+  <!--  <ImageButton
         android:id="@+id/website"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -93,7 +93,20 @@
         android:layout_marginTop="600dp"
         android:background="@null"
         android:onClick="web"
-        android:src="@drawable/web_red" />
-
+        android:src="@drawable/web_red" />-->
+    <TextView
+        android:id="@+id/website"
+        android:onClick="web"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:drawableStart="@drawable/web_red"
+        android:drawablePadding="16dp"
+        android:layout_marginTop="600dp"
+        android:padding="16sp"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/whiteColor"
+        android:text="@string/web_link"
+        android:textSize="16sp" />
 
 </RelativeLayout>

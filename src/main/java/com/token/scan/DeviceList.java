@@ -323,8 +323,9 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
         clear.setOnClickListener(this);
         backDelete.setOnClickListener(this);
 
-        Typeface tf = Typeface.createFromAsset(getApplicationContext().getAssets(), "SevenSegment.ttf");
+        Typeface tf = Typeface.createFromAsset(getApplicationContext().getAssets(), "DSEG7Classic-Bold.ttf");
         display.setTypeface(tf);
+
 
 
         //============================Keyboard====================================================//
