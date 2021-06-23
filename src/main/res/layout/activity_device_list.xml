@@ -84,34 +84,38 @@
             android:layout_marginTop="60dp"
             android:layout_marginBottom="60dp" />
 
-        <LinearLayout
+      <LinearLayout
         android:id="@+id/LinearLayout02"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+          android:background="#008577"
         android:orientation="horizontal"  >
-    <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Paired Devices"
-        tools:layout_editor_absoluteX="-22dp"
-        tools:layout_editor_absoluteY="224dp">
+          <Button
+              android:id="@+id/button"
+              android:layout_width="51dp"
+              android:layout_height="42dp"
+              android:layout_alignParentRight="true"
+              android:layout_marginRight="150dp"
+              android:layout_marginLeft="100dp"
+              android:layout_toLeftOf="@+id/scanDevice"
+              android:background="@drawable/ic_pair_bluetooth"
 
-    </Button>
+              />
 
-    <Button
-        android:id="@+id/scanDevice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Scan Devices"
-         ></Button>
+
+          <Button
+              android:id="@+id/scanDevice"
+              android:layout_width="42dp"
+              android:layout_height="42dp"
+              android:layout_alignParentRight="true"
+
+
+              android:background="@drawable/ic_bluetooth"
+              />
 
 
     </LinearLayout>
-
 
 
     <!--
