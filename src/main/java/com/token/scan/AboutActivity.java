@@ -2,6 +2,7 @@ package com.token.scan;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -21,8 +22,11 @@ public class AboutActivity extends AppCompatActivity
         setContentView(R.layout.activity_about);
         // Back Pressed Button
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
     }
 
     @Override

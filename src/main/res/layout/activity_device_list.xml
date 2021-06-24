@@ -81,7 +81,7 @@
             layout="@layout/keyboard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="57dp"
             android:layout_marginBottom="60dp" />
 
       <LinearLayout
@@ -89,7 +89,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-          android:background="#008577"
+          android:background="@color/colorAccent"
         android:orientation="horizontal"  >
           <Button
               android:id="@+id/button"
