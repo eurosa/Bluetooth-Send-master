@@ -43,6 +43,16 @@ public class DataModel {
     public String soundType;
     public String typeNo;
 
+    public String getSound_id() {
+        return sound_id;
+    }
+
+    public void setSound_id(String sound_id) {
+        this.sound_id = sound_id;
+    }
+
+    public  String sound_id;
+
 
 
 

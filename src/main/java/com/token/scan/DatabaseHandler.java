@@ -27,6 +27,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_DEVICE_ID = "devId";
     private static final String KEY_NO_OF_DIGIT = "digitNo";
     private static final String KEY_SOUND = "soundType";
+    private static final String KEY_SOUND_ID = "snd_id";
     private static final String KEY_TYPE = "typeNo";
 
 
@@ -49,9 +50,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_DISPLAY_TOKEN + "("
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_DEVICE_ID + " TEXT,"
-                + KEY_NO_OF_DIGIT + " TEXT ,"+ KEY_SOUND + " TEXT ,"+ KEY_TYPE + " TEXT"+")";
+                + KEY_NO_OF_DIGIT + " TEXT ,"+ KEY_SOUND + " TEXT ,"+ KEY_TYPE + " TEXT,"+ KEY_SOUND_ID + " TEXT"+")";
         db.execSQL(CREATE_CONTACTS_TABLE);
-        db.execSQL("INSERT INTO " + TABLE_DISPLAY_TOKEN+ "("+KEY_DEVICE_ID+", "+KEY_NO_OF_DIGIT+", "+KEY_SOUND+", "+KEY_TYPE+" ) VALUES ('1', 2, 3,4)");
+        db.execSQL("INSERT INTO " + TABLE_DISPLAY_TOKEN+ "("+KEY_DEVICE_ID+", "+KEY_NO_OF_DIGIT+", "+KEY_SOUND+", "+KEY_TYPE+","+KEY_SOUND_ID+" ) VALUES ('1', 2, 'English',4,4)");
         //db.execSQL("INSERT INTO "+TABLE_DISPLAY_TOKEN+"("+KEY_DEVICE_ID+","+KEY_NO_OF_DIGIT+","+KEY_SOUND,KEY_TYPE+")"+" VALUES(?,?,?,?)", new Object[]{"1", "2","3","4"}");");
         //  db.execSQL("INSERT INTO TABLE_DISPLAY_TOKEN(name, amount) VALUES(?, ?)", new Object[]{"Jerry", moneyOfJerry});
 
@@ -203,6 +204,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     dataModel.setSoundType(cursor.getString(cursor.getColumnIndex("soundType")));
                     dataModel.setTypeNo(cursor.getString(cursor.getColumnIndex("typeNo")));
                     dataModel.setID(Integer.parseInt(cursor.getString(cursor.getColumnIndex("id"))));
+                    dataModel.setSound_id(cursor.getString(cursor.getColumnIndex("snd_id")));
 
                 } while (cursor.moveToNext());
             }

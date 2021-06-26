@@ -589,19 +589,46 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
                         handler.postDelayed(this,100);
                     }
                 },100);
-                dataModel.getDigitNo();
+                String digitNo =  dataModel.getDigitNo();
                 dataModel.getTypeNo();
                 dataModel.getDevId();
                 dataModel.getSoundType();
                 // String data="$134"+display.getText().toString()+";";
-                String data="$134"+display.getText().toString()+";";
+                String displayText = display.getText().toString();
+                if(displayText.length()==2){
+
+                    displayText = "0"+displayText;
+                    digitNo = "3";
+                }
+                String displayData  = fixedLengthString(displayText, 4);
+
+                String data="$"+dataModel.getDevId()+digitNo+dataModel.getSound_id()+displayData+";";
                 btSocket.getOutputStream().write(data.getBytes());
+                Log.d("Display_Digit",data);
             }
             catch (IOException e)
             {
                 msg("Error");
             }
         }
+    }
+
+    private String fixedLengthString(String textData , int length)
+    {
+        String stringData = null;
+        // String stringData = textData.rightPad(lenght, ' ').Substring(0, length);
+        // String stringData = leftpad(textData,28);
+
+            stringData = leftpad(textData.trim(), length);
+
+        return stringData;
+    }
+
+    private String rightpad(String text, int length) {
+        return String.format("%-" + length + "." + length + "s", text);
+    }
+    private String leftpad(String text, int length) {
+        return String.format("%" + length + "." + length + "s", text);
     }
 
     public void passDialog(final MenuItem item){
@@ -1015,7 +1042,20 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 String s = sndList.getItemAtPosition(i).toString();
-                dataModel.setSoundType(s);
+                if(i==0) {
+                    dataModel.setSound_id("1");
+                    dataModel.setSoundType(s);
+                }else if(i == 1){
+                    dataModel.setSound_id("2");
+                    dataModel.setSoundType(s);
+                }else if(i==2){
+                    dataModel.setSound_id("3");
+                    dataModel.setSoundType(s);
+                }else if(i==3){
+                    dataModel.setSound_id("4");
+                    dataModel.setSoundType(s);
+                }
+
                 dbHandler.updateSound(dataModel);
                 // Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                 sndDialog.dismiss(); // If you want to close the adapter
@@ -1963,8 +2003,13 @@ public void deleteFile(){
 
     // INTERNAL
     private void updateDisplay() {
+        Log.d("DIGIT_NO",dataModel.getDigitNo()+" "+currentDisplayValue.toString());
+        String currentValueString = currentDisplayValue.toString();
+        if(currentDisplayValue==0){
 
-        display.setText(padLeftZeros(currentDisplayValue.toString(),Integer.parseInt(dataModel.getDigitNo())));
+            currentValueString = "0000";
+        }
+        display.setText(padLeftZeros(currentValueString,Integer.parseInt(dataModel.getDigitNo())));
 
     }
 
