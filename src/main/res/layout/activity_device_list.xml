@@ -87,7 +87,7 @@
 
             <TextView
                 android:id="@+id/display"
-                android:layout_width="388dp"
+                android:layout_width="375dp"
                 android:layout_height="104dp"
                 android:layout_margin="20dp"
                 android:gravity="center"
@@ -332,17 +332,18 @@
       <LinearLayout
         android:id="@+id/LinearLayout02"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:background="@color/lightBlue"
         android:orientation="horizontal">
           <Button
               android:id="@+id/button"
-              android:layout_width="51dp"
+              android:layout_width="42dp"
               android:layout_height="42dp"
               android:layout_alignParentRight="true"
               android:layout_marginRight="150dp"
               android:layout_marginLeft="100dp"
+              android:layout_gravity="center"
               android:layout_toLeftOf="@+id/scanDevice"
               android:background="@drawable/ic_pair_bluetooth"
 
@@ -354,7 +355,7 @@
               android:layout_width="42dp"
               android:layout_height="42dp"
               android:layout_alignParentRight="true"
-
+              android:layout_gravity="center"
 
               android:background="@drawable/ic_bluetooth"
               />
