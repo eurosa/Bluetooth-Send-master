@@ -46,6 +46,16 @@
 
     <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item><!--No Effect-->
+        <item name="colorPrimaryDark">#68bbe3</item><!--Main back theme color-->
+        <item name="colorAccent">#0e86d4</item> <!--Action Bar Color-->
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <!--
+    <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -53,6 +63,7 @@
         <item name="android:textColor">@color/colorAccent</item>
 
     </style>
+    -->
 
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <!-- Customize color of navigation drawer icon and back arrow -->

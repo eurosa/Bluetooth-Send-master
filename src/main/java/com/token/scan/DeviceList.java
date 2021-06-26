@@ -14,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
@@ -28,6 +29,7 @@ import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
@@ -518,6 +520,34 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
          * Up button and down button when long pressed, increment value of display
          * *************************************************************************************/
        // passDialog();
+
+        scanDevices.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        Button view = (Button ) v;
+                        view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+                        ScanDevicesList();
+                        v.invalidate();
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP:
+
+                        // Your action here on button click
+
+                    case MotionEvent.ACTION_CANCEL: {
+                        Button view = (Button) v;
+                        view.getBackground().clearColorFilter();
+                        view.invalidate();
+                        break;
+                    }
+                }
+                return true;
+            }
+        });
+
 
     }
 
@@ -1555,7 +1585,9 @@ public void deleteFile(){
             {
                 msg("Connected.");
                 isBtConnected = true;
-                getSupportActionBar().setTitle(infoBLE);
+                String address = infoBLE.substring(infoBLE.length() - 17);
+                String name = infoBLE.replace(address, "");
+                getSupportActionBar().setTitle(name);
 
 
 
