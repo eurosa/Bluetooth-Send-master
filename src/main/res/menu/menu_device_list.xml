@@ -29,6 +29,6 @@
         android:icon="@drawable/ic_share"
         android:orderInCategory="4"
         app:showAsAction="never"
-        android:title="About" />
+        android:title="About Us" />
 
 </menu>

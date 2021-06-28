@@ -37,4 +37,17 @@
         android:title="Exit"
         android:icon="@drawable/ic_exit_button"/>
     </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_loud_speaker"
+                android:title="Send" />
+        </menu>
+    </item>
 </menu>

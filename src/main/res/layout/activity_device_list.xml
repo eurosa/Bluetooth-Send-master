@@ -81,7 +81,7 @@
             android:id="@+id/constraintLayout"
             android:layout_width="423dp"
             android:layout_height="148dp"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/babyBlue"
             android:gravity="center"
             android:layout_below="@id/my_toolbar"
             >
@@ -336,7 +336,7 @@
         android:layout_height="50dp"
           android:gravity="center"
         android:layout_alignParentBottom="true"
-        android:background="@color/lightBlue"
+        android:background="@color/blue"
         android:orientation="horizontal">
 
           <TextView
@@ -408,7 +408,7 @@
         android:id="@+id/nav_view"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-
+        app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/navigation_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

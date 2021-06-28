@@ -48,8 +48,8 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">true</item>
         <item name="colorPrimary">@color/colorPrimary</item><!--No Effect-->
-        <item name="colorPrimaryDark">#68bbe3</item><!--Main back theme color-->
-        <item name="colorAccent">#0e86d4</item> <!--Action Bar Color-->
+        <item name="colorPrimaryDark">#000c66</item><!--Main back theme color-->
+        <item name="colorAccent">#0000ff</item> <!--Action Bar Color-->
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 

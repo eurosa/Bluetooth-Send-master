@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.token.scan.AboutActivity"
-    android:background="#212121">
+    android:background="#F8F0E3">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tool_bar"
@@ -19,18 +19,7 @@
         android:gravity="center"
         app:theme="@style/ToolbarTheme" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tool_bar"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="About Digiline Systems Pvt. Ltd."
-        android:id="@+id/abt_txt"
-        android:layout_marginTop="60dp"
-        android:fontFamily="sans-serif-smallcaps"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textColor="#f44336" />
+
 
     <ImageView
         android:id="@+id/developer"
@@ -48,6 +37,7 @@
         android:id="@+id/textView4"
         android:textSize="22dp"
         android:textAlignment="center"
+        android:gravity="center"
         android:textColor="#f44336"
         android:fontFamily="sans-serif-smallcaps"
         android:layout_below="@+id/developer"
@@ -104,10 +94,29 @@
         android:drawableStart="@drawable/web_red"
         android:drawablePadding="16dp"
         android:layout_marginTop="600dp"
+        android:gravity="center"
         android:padding="16sp"
         android:layout_marginLeft="10dp"
-        android:textColor="@color/whiteColor"
+        android:textColor="@color/colorBlack"
         android:text="@string/web_link"
         android:textSize="16sp" />
+<LinearLayout
+    android:id="@+id/versionLa"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+   android:gravity="center"
+    android:layout_below="@+id/website">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Version 21A"
+        android:id="@+id/abt_txt"
+        android:gravity="center"
+
+        android:fontFamily="sans-serif-smallcaps"
+
+        android:textColor="#f44336" />
+</LinearLayout>
 
 </RelativeLayout>
