@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:weightSum="2" >
 
+
     <EditText
         android:id="@+id/editTextPassword"
         android:layout_width="match_parent"
