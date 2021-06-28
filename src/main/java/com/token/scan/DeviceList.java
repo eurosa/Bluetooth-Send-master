@@ -273,7 +273,8 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
 
         mNavigationView =  findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
-
+        // After giving this Navigation menu Item Icon becomes colorful
+        mNavigationView.setItemIconTintList(null); // <-- HERE add this code for icon color
         // to make the Navigation drawer icon always appear on the action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
        /***************************************************************************************
