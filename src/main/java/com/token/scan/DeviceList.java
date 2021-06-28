@@ -5,9 +5,11 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothSocket;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -54,6 +56,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -81,6 +84,7 @@ import static android.content.ContentValues.TAG;
 public class DeviceList extends AppCompatActivity implements  View.OnClickListener  , NavigationView.OnNavigationItemSelectedListener
 {
     private static final String MY_PREFS_NAME = "MyTxtFile";
+
     //  private CameraKitView cameraKitView;
     //==============================To Connect Bluetooth Device=============================
     private ProgressDialog progress;
@@ -174,6 +178,10 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
     private ImageButton minusButton, plusButton;
     ImageButton[] arrayOfControlButtons;
     private boolean success =  false;
+    private TextView connectionStatus;
+    private String infoBLE = null;
+    private String addressBLE = null;
+    private String name = null;
 
     /****************************************************************************************
     * End of Navigation Drawer
@@ -198,6 +206,12 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
          * Initialize Database
          *
          * *******************************************************************************/
+        connectionStatus = findViewById(R.id.connectionStatus);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
+        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
+        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+        this.registerReceiver(mReceiver, filter);
         //------------------------------------------------------------------------------------------------
         //=========================Adding Toolbar in android layout=======================================
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -357,9 +371,9 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
         //===================================================End Create Button Programmatically=====
 
         //Calling widgets
-        btnPaired = findViewById(R.id.button);
+         // btnPaired = findViewById(R.id.button);
      //   devicelist = findViewById(R.id.listView);
-        scanDevices=findViewById(R.id.scanDevice);
+         // scanDevices=findViewById(R.id.scanDevice);
      //   devicelist.setVisibility(View.GONE);
 
         //if the device has bluetooth
@@ -380,7 +394,7 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
                 startActivityForResult(turnBTon,1);
         }
 
-        btnPaired.setOnClickListener(new View.OnClickListener() {
+  /*      btnPaired.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
@@ -393,16 +407,16 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
         }
 
         );
+*/
 
 
-
-        scanDevices.setOnClickListener(new View.OnClickListener() {
+      /*  scanDevices.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
                 ScanDevicesList();
             }
-        });
+        });*/
 
 
 
@@ -520,7 +534,7 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
          * Up button and down button when long pressed, increment value of display
          * *************************************************************************************/
        // passDialog();
-
+/*
         scanDevices.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -547,7 +561,7 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
                 return true;
             }
         });
-
+*/
 
     }
 
@@ -911,6 +925,12 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
             case R.id.action_disconnect:
                 Disconnect();
                 return true;
+            case R.id.action_searchList:
+                ScanDevicesList();
+                return true;
+            case R.id.action_pairedList:
+                pairedDevicesList();
+                return true;
             case R.id.action_about:
                 Intent intent = new Intent(this, AboutActivity.class);
                 startActivity(intent);
@@ -1201,23 +1221,23 @@ public void deleteFile(){
     protected void onStart() {
         super.onStart();
       //  checkPermissions();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED &&checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED&&checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 waitForPermission = true;
                 requestCameraPermission();
 
             }
-/*
+
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED&&checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 waitForStoragePermission = true;
                 requestStoragePermission();
 
             }
 
- */
 
-        }
+
+        }*/
 
      //   cameraKitView.onStart();
     }
@@ -1278,7 +1298,7 @@ public void deleteFile(){
         }
     }
 
-    @Override
+ /*  @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull final int[] grantResults) {
         if (requestCode == REQUEST_CAMERA_PERMISSION) {
@@ -1343,7 +1363,7 @@ public void deleteFile(){
         }
     //    cameraKitView.onRequestPermissionsResult(requestCode, permissions, grantResults);
 //---------------------------------------------------------------------------------------
-    }
+    }*/
 
 
     private SurfaceHolder.Callback shCallback = new SurfaceHolder.Callback() {
@@ -1555,8 +1575,7 @@ public void deleteFile(){
     //=================================To Connect Bluetooth Device====================================
     private class ConnectBT extends AsyncTask<Void, Void, Void>  // UI thread
     {
-        String addressBLE=null;
-        String infoBLE=null;
+
         private boolean ConnectSuccess = true; //if it's here, it's almost connected
         public ConnectBT(String address,String info) {
             super();
@@ -1619,15 +1638,18 @@ public void deleteFile(){
                 // finish();
               //  startActivity(intent);
                // Disconnect();
-                getSupportActionBar().setTitle(R.string.app_name);
+                //getSupportActionBar().setTitle(R.string.app_name);
             }
             else
             {
-                msg("Connected.");
+
                 isBtConnected = true;
-                String address = infoBLE.substring(infoBLE.length() - 17);
-                String name = infoBLE.replace(address, "");
-                getSupportActionBar().setTitle(name);
+                address = infoBLE.substring(infoBLE.length() - 17);
+                name = infoBLE.replace(address, "");
+                msg("Device connected.");
+                // getSupportActionBar().setTitle(name);
+                connectionStatus.setText("Device connected");
+                connectionStatus.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.limeGreen));
 
 
 
@@ -2016,6 +2038,42 @@ public void deleteFile(){
 
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//The BroadcastReceiver that listens for bluetooth broadcasts
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                Toast.makeText(getApplicationContext(),""+"Device found",Toast.LENGTH_LONG).show();
+            }
+            else if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
+
+                //Toast.makeText(getApplicationContext(),""+"Device connected",Toast.LENGTH_LONG).show();
+               // connectionStatus.setText(name.trim()+" device connected");
+            }
+            else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+                //Done searching
+                Toast.makeText(getApplicationContext(),""+"Device Searching",Toast.LENGTH_LONG).show();
+            }
+            else if (BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED.equals(action)) {
+                //Device is about to disconnect
+                Toast.makeText(getApplicationContext(),""+"Device disconnected",Toast.LENGTH_LONG).show();
+            }
+            else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
+                //Device has disconnected
+
+               // Toast.makeText(getApplicationContext(),name.trim()+" device disconnected",Toast.LENGTH_LONG).show();
+                connectionStatus.setText("No bluetooth device connected");
+                connectionStatus.setTextColor(ContextCompat.getColor(context, R.color.redColor));
+            }
+        }
+    };
 
 }
+
+
+

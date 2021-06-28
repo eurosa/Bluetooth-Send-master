@@ -7,6 +7,7 @@
     android:id="@+id/draw_layout"
     android:layout_gravity="center"
     android:background="#F8F0E3">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -72,7 +73,7 @@
         android:background="?attr/colorAccent"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-
+        android:gravity="center"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:titleTextColor="#FFFFFF" />
 
@@ -333,36 +334,48 @@
         android:id="@+id/LinearLayout02"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+          android:gravity="center"
         android:layout_alignParentBottom="true"
         android:background="@color/lightBlue"
         android:orientation="horizontal">
-          <Button
-              android:id="@+id/button"
-              android:layout_width="42dp"
-              android:layout_height="42dp"
-              android:layout_alignParentRight="true"
-              android:layout_marginRight="150dp"
-              android:layout_marginLeft="100dp"
+
+          <TextView
+              android:id="@+id/connectionStatus"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textSize="24sp"
+               android:textColor="@color/redColor"
               android:layout_gravity="center"
-              android:layout_toLeftOf="@+id/scanDevice"
-              android:background="@drawable/ic_pair_bluetooth"
+              android:text="No device connected">
 
-              />
-
-
-          <Button
-              android:id="@+id/scanDevice"
-              android:layout_width="42dp"
-              android:layout_height="42dp"
-              android:layout_alignParentRight="true"
-              android:layout_gravity="center"
-
-              android:background="@drawable/ic_bluetooth"
-              />
-
+          </TextView>
 
     </LinearLayout>
 
+        <!--      <Button
+                  android:id="@+id/button"
+                  android:layout_width="42dp"
+                  android:layout_height="42dp"
+                  android:layout_alignParentRight="true"
+                  android:layout_marginRight="150dp"
+                  android:layout_marginLeft="100dp"
+                  android:layout_gravity="center"
+                  android:layout_toLeftOf="@+id/scanDevice"
+                  android:background="@drawable/ic_pair_bluetooth"
+
+                  />
+
+
+              <Button
+                  android:id="@+id/scanDevice"
+                  android:layout_width="42dp"
+                  android:layout_height="42dp"
+                  android:layout_alignParentRight="true"
+                  android:layout_gravity="center"
+
+                  android:background="@drawable/ic_bluetooth"
+                  />
+    -->
 
     <!--
         <ImageView
