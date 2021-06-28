@@ -663,7 +663,7 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
                     public void onClick(View v) {
                         EditText editTextPassword = (EditText) dialog
                                 .findViewById(R.id.editTextPassword);
-                        if(!editTextPassword.getText().toString().equals("9999")){
+                        if(!editTextPassword.getText().toString().toLowerCase().equals("tdf")){
                             editTextPassword.requestFocus();
                             editTextPassword.setError("Incorrect Password");
 
