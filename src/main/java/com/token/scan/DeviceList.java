@@ -3,6 +3,8 @@ package com.token.scan;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
@@ -61,6 +63,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.exifinterface.media.ExifInterface;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.instantapps.InstantApps;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -932,6 +935,7 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
                 return true;
             case R.id.action_disconnect:
                 Disconnect();
+
                 return true;
             case R.id.action_searchList:
                 ScanDevicesList();
@@ -950,6 +954,8 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
 
 
     }
+
+
 
     public void About(){
 

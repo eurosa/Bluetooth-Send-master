@@ -24,6 +24,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
         <activity android:name="com.token.scan.ScanActivity"
+                  android:label="Scan Activity"
                   android:theme="@style/MyMaterialTheme.Base"></activity>
         <activity
             android:name="com.token.scan.SplashScreen"

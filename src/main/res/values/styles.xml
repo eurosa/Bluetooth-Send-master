@@ -51,6 +51,7 @@
         <item name="colorPrimaryDark">#000c66</item><!--Main back theme color-->
         <item name="colorAccent">#0000ff</item> <!--Action Bar Color-->
         <item name="android:textColor">@color/colorAccent</item>
+      <!--  <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>-->
     </style>
 
     <!--
@@ -75,5 +76,13 @@
         of the navigation drawer-->
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
+
+
+    <style name="CustomActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
+    </style>
 
 </resources>
