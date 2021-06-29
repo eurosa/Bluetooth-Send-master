@@ -1141,9 +1141,9 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
     public void exitApplication(){
         final AlertDialog.Builder adb = new AlertDialog.Builder(this);
         // adb.setView(Integer.parseInt("Delete Folder"));
-        adb.setTitle("Exit");
+        // adb.setTitle("Exit");
         adb.setMessage("Are you sure you want to exit application?");
-        adb.setIcon(android.R.drawable.ic_dialog_alert);
+        // adb.setIcon(android.R.drawable.ic_dialog_alert);
         adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();

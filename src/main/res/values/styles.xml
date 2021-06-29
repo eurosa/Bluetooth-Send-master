@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowDisablePreview">true</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -17,9 +18,9 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="AppTheme.Launcher">
+   <!-- <style name="AppTheme.Launcher">
         <item name="android:windowBackground">@drawable/splashscreen</item>
-    </style>
+    </style>-->
 
     <style name="DigitButton">
         <item name="android:textColor">@color/colorWhite</item>
