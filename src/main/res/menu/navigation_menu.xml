@@ -39,10 +39,7 @@
         android:title="Type"
         android:icon="@drawable/ic_type_no"/>
 
-    <item
-        android:id="@+id/nav_exit"
-        android:title="Exit"
-        android:icon="@drawable/ic_exit_button"/>
+
     </group>
         </menu>
     </item>
@@ -59,4 +56,12 @@
                 android:title="About Us" />
         </menu>
     </item>
+    <group
+        android:id="@+id/group_exit"
+        android:checkableBehavior="single">
+    <item
+        android:id="@+id/nav_exit"
+        android:title="Exit"
+        android:icon="@drawable/ic_exit_button"/>
+</group>
 </menu>
