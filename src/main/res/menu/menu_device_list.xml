@@ -12,23 +12,23 @@
         android:icon="@drawable/ic_share"
         android:orderInCategory="2"
         app:showAsAction="never"
-        android:title="Paired Devices List" />
+        android:title="Connect to a Paired Device"/>
 
     <item android:id="@+id/action_disconnect"
         android:icon="@drawable/ic_share"
         android:orderInCategory="3"
         app:showAsAction="never"
-        android:title="Disconnect bluetooth device" />
+        android:title="Disconnect Bluetooth Device" />
 
-    <item android:id="@+id/action_share"
+   <!-- <item android:id="@+id/action_share"
         android:icon="@drawable/ic_share"
         android:orderInCategory="3"
         app:showAsAction="never"
-        android:title="Share this app" />
+        android:title="Share this App" />
     <item android:id="@+id/action_about"
         android:icon="@drawable/ic_share"
         android:orderInCategory="4"
         app:showAsAction="never"
-        android:title="About Us" />
+        android:title="About Us" />-->
 
 </menu>

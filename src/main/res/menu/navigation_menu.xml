@@ -3,13 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="HardcodedText">
     <group
+        android:id="@+id/group_home"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:title="Home"
+            android:gravity="bottom|right"
+            android:icon="@drawable/ic_home"/>
+    </group>
+    <item android:title="Settings">
+        <menu>
+    <group
         android:id="@+id/group"
         android:checkableBehavior="single">
-    <item
-        android:id="@+id/nav_home"
-        android:title="Home"
-        android:gravity="bottom|right"
-        android:icon="@drawable/ic_home"/>
+
     <item
         android:id="@+id/nav_id"
         android:title="Id"
@@ -37,10 +44,11 @@
         android:title="Exit"
         android:icon="@drawable/ic_exit_button"/>
     </group>
+        </menu>
+    </item>
 
     <item android:title="Communicate">
         <menu>
-
             <item android:id="@+id/action_share"
                 android:icon="@drawable/ic_share"
                 android:orderInCategory="1"

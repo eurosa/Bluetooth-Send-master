@@ -852,7 +852,7 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
 
 
         // Handle navigation view item clicks here.
-        if (item.getItemId() != R.id.nav_home && item.getItemId() != R.id.nav_exit)
+        if (item.getItemId() != R.id.nav_home && item.getItemId() != R.id.nav_exit && item.getItemId() !=R.id.action_share && item.getItemId() !=R.id.action_about)
            passDialog(item);
 
 
@@ -861,6 +861,13 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
             case R.id.nav_exit:
                 exitApplication();
                 break;
+           case R.id.action_share:
+               shareApp();
+               break;
+           case R.id.action_about:
+               Intent intent = new Intent(this, AboutActivity.class);
+               startActivity(intent);
+               break;
 
         }
         //close navigation drawer
@@ -917,9 +924,9 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
 
         switch (id) {
 
-            case R.id.action_share:
+            /*case R.id.action_share:
                 shareApp();
-                return true;
+                return true;*/
             case R.id.nav_id:
                 Toast.makeText(getApplicationContext(), "nav_exit", Toast.LENGTH_LONG).show();
                 return true;
@@ -932,10 +939,10 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
             case R.id.action_pairedList:
                 pairedDevicesList();
                 return true;
-            case R.id.action_about:
+            /*case R.id.action_about:
                 Intent intent = new Intent(this, AboutActivity.class);
                 startActivity(intent);
-                return true;
+                return true;*/
 
             default:
                 return super.onOptionsItemSelected(item);
