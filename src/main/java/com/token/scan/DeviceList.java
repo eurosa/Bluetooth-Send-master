@@ -584,10 +584,21 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
        //nav_id.setTitle("Id"+"                                            "+dataModel.getDevId());
 
        MenuItem nav_digit = menu.findItem(R.id.nav_digits);
-       nav_digit.setTitle("Number Of Digits"+"                 "+dataModel.getDigitNo());
+       nav_digit.setTitle("Number Of Digits" + "                 " + dataModel.getDigitNo());
 
        MenuItem nav_sound = menu.findItem(R.id.nav_sound);
-       nav_sound.setTitle("Sound"+"              "+dataModel.getSoundType());
+
+
+       if(dataModel.getSoundType().contains("Hindi/English")) {
+           nav_sound.setTitle("Sound"+"              "+dataModel.getSoundType());
+       }else if(dataModel.getSoundType().contains("English")){
+           nav_sound.setTitle("Sound"+"                         "+dataModel.getSoundType());
+       }else if(dataModel.getSoundType().contains("Ding Dong")){
+           nav_sound.setTitle("Sound"+"                    "+dataModel.getSoundType());
+       }else if(dataModel.getSoundType().contains("Hindi")){
+           nav_sound.setTitle("Sound"+"                             "+dataModel.getSoundType());
+       }
+
 
        MenuItem nav_type = menu.findItem(R.id.nav_type);
        nav_type.setTitle("Type"+"                                       "+dataModel.getTypeNo());
@@ -685,7 +696,7 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
 
                                 case R.id.nav_id:
                                     idList();
-                                    item.setTitle("Id"+"                                           "+dataModel.getDevId());
+                                    item.setTitle("Id"+"                                            "+dataModel.getDevId());
                                     break;
                                 case R.id.nav_digits:
                                    noOfDigits();
