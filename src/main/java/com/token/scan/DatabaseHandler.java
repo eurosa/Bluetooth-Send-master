@@ -52,7 +52,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_DEVICE_ID + " TEXT,"
                 + KEY_NO_OF_DIGIT + " TEXT ,"+ KEY_SOUND + " TEXT ,"+ KEY_TYPE + " TEXT,"+ KEY_SOUND_ID + " TEXT"+")";
         db.execSQL(CREATE_CONTACTS_TABLE);
-        db.execSQL("INSERT INTO " + TABLE_DISPLAY_TOKEN+ "("+KEY_DEVICE_ID+", "+KEY_NO_OF_DIGIT+", "+KEY_SOUND+", "+KEY_TYPE+","+KEY_SOUND_ID+" ) VALUES ('1', 2, 'English',4,4)");
+        db.execSQL("INSERT INTO " + TABLE_DISPLAY_TOKEN+ "("+KEY_DEVICE_ID+", "+KEY_NO_OF_DIGIT+", "+KEY_SOUND+", "+KEY_TYPE+","+KEY_SOUND_ID+" ) VALUES ('1', 2, 'English',4,2)");
         //db.execSQL("INSERT INTO "+TABLE_DISPLAY_TOKEN+"("+KEY_DEVICE_ID+","+KEY_NO_OF_DIGIT+","+KEY_SOUND,KEY_TYPE+")"+" VALUES(?,?,?,?)", new Object[]{"1", "2","3","4"}");");
         //  db.execSQL("INSERT INTO TABLE_DISPLAY_TOKEN(name, amount) VALUES(?, ?)", new Object[]{"Jerry", moneyOfJerry});
 

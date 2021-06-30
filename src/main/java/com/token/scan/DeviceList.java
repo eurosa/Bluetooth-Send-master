@@ -1,6 +1,7 @@
 package com.token.scan;
 
 import android.Manifest;
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.FragmentManager;
@@ -30,13 +31,16 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.text.Html;
+import android.transition.Slide;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -198,6 +202,7 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_list);
 //----------------------------Grant storage permission--------------------------------------------------
+        setAnimation();
         /*********************************************************************************
         * Initialize Database
         *
@@ -713,10 +718,31 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
 }
 
 
+    public void setAnimation()
+    {
+        if(Build.VERSION.SDK_INT>20) {
+            Slide slide = new Slide();
+            slide.setSlideEdge(Gravity.LEFT);
+            slide.setDuration(400);
+            slide.setInterpolator(new AccelerateDecelerateInterpolator());
+            getWindow().setExitTransition(slide);
+            getWindow().setEnterTransition(slide);
+        }
+    }
+
     private void ScanDevicesList(){
 
         Intent intent = new Intent(this, ScanActivity.class);
-        startActivity(intent);
+        // startActivity(intent);
+        if(Build.VERSION.SDK_INT>20)
+        {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
+            startActivity(intent,options.toBundle());
+        }
+        else {
+            startActivity(intent);
+        }
+        //overridePendingTransition(R.anim.slide_out_bottom, R.anim.slide_in_bottom);
     }
 
     private void pairedDevicesList()
