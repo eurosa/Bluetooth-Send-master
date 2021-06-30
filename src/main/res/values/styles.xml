@@ -6,12 +6,15 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowDisablePreview">true</item>
+       <!-- <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowBackground">@null</item>-->
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+       <!-- <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowBackground">@null</item>-->
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -52,6 +55,8 @@
         <item name="colorPrimaryDark">#000c66</item><!--Main back theme color-->
         <item name="colorAccent">#0000ff</item> <!--Action Bar Color-->
         <item name="android:textColor">@color/colorAccent</item>
+       <!-- <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowBackground">@null</item>-->
       <!--  <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>-->
     </style>
 

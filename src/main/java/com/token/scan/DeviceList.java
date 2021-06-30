@@ -855,7 +855,8 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
 
 
         // Handle navigation view item clicks here.
-        if (item.getItemId() != R.id.nav_home && item.getItemId() != R.id.nav_exit && item.getItemId() !=R.id.action_share && item.getItemId() !=R.id.action_about)
+        if (item.getItemId() != R.id.nav_home && item.getItemId() != R.id.nav_exit && item.getItemId() !=R.id.action_share
+                && item.getItemId() !=R.id.action_about && item.getItemId() !=R.id.action_searchList && item.getItemId() !=R.id.action_pairedList)
            passDialog(item);
 
 
@@ -870,6 +871,12 @@ public class DeviceList extends AppCompatActivity implements  View.OnClickListen
            case R.id.action_about:
                Intent intent = new Intent(this, AboutActivity.class);
                startActivity(intent);
+               break;
+           case R.id.action_searchList:
+               ScanDevicesList();
+               break;
+           case R.id.action_pairedList:
+               pairedDevicesList();
                break;
 
         }

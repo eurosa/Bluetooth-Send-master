@@ -10,7 +10,22 @@
             android:title="Home"
             android:gravity="bottom|right"
             android:icon="@drawable/ic_home"/>
+
+
     </group>
+
+    <item
+        android:id="@+id/action_searchList"
+        android:title="Scan Nearby Devices"
+        android:gravity="right"
+        android:icon="@drawable/ic_bluetooth"/>
+
+    <item
+        android:id="@+id/action_pairedList"
+        android:title="Connect to a Paired Device"
+        android:gravity="right"
+        android:icon="@drawable/ic_pair_bluetooth"/>
+
     <item android:title="Settings">
         <menu>
     <group
