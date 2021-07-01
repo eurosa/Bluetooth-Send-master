@@ -71,10 +71,20 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorAccent"
         android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        android:theme="@style/MyMaterialTheme.Base"
         android:gravity="center"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:titleTextColor="#FFFFFF" />
+        app:titleTextColor="#FFFFFF" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Token Display"
+            android:textSize="18sp"
+            android:textColor="@color/whiteColor"
+            android:layout_gravity="center"
+            android:id="@+id/toolbar_title" />
+
+    </androidx.appcompat.widget.Toolbar>
 
         <LinearLayout
             android:id="@+id/constraintLayout"

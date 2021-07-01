@@ -108,6 +108,7 @@ public class ScanActivity extends AppCompatActivity implements ListInteractionLi
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_left_arrow);
 
         requestLocationPermission();
         // Ads.
